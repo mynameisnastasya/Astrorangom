@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0910">
+<title>Astro Speak — 60 секунд на астрологию</title>
+<meta name="description" content="Тренажёр импровизации для практикующих астрологов: случайная профессиональная тема и 60 секунд на ответ для Reels.">
+<style>
+:root{
+  --bg:#0a0910;--panel:#14121b;--panel2:#1b1823;--text:#f5f0e8;--muted:#a8a0b3;
+  --line:#302a3b;--acid:#dfff67;--hot:#ff786f;--violet:#baa4ff;
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;min-height:100vh;color:var(--text);background:
+radial-gradient(900px 500px at 92% -10%,#39294e 0%,transparent 60%),
+radial-gradient(700px 500px at -10% 50%,#172b2b 0%,transparent 55%),var(--bg);
+font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button{font:inherit}
+.wrap{max-width:980px;margin:0 auto;padding:24px 20px 54px}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{font-weight:950;letter-spacing:-.05em;font-size:22px}.brand b{color:var(--acid)}
+.badge{border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:12px;padding:8px 12px}
+.hero{padding:72px 0 26px}
+.kicker{color:var(--acid);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:900}
+h1{font-size:clamp(48px,9vw,94px);line-height:.9;letter-spacing:-.07em;margin:14px 0 22px;max-width:880px}
+.lead{font-size:18px;line-height:1.55;color:var(--muted);max-width:680px;margin:0}
+.toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:28px 0 16px}
+.chip{border:1px solid var(--line);background:transparent;color:var(--muted);padding:9px 13px;border-radius:999px;cursor:pointer;transition:.18s}
+.chip:hover{border-color:#544963;color:var(--text)}.chip.active{background:var(--text);border-color:var(--text);color:#0d0b10}
+.toggle{margin-left:auto;display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;cursor:pointer;user-select:none}
+.toggle input{accent-color:var(--acid)}
+.card{min-height:410px;border-radius:30px;padding:clamp(24px,5vw,50px);border:1px solid var(--line);
+background:linear-gradient(145deg,rgba(29,25,37,.97),rgba(14,13,18,.98));box-shadow:0 35px 95px #0007;display:flex;flex-direction:column;justify-content:space-between}
+.meta{display:flex;align-items:center;justify-content:space-between;gap:20px;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.12em}
+.meta strong{color:var(--violet);font-weight:900}
+.topic{font-family:Georgia,"Times New Roman",serif;font-size:clamp(30px,5.4vw,53px);line-height:1.07;letter-spacing:-.035em;margin:38px 0 26px}
+.hint{border-left:2px solid var(--acid);padding-left:15px;color:var(--muted);line-height:1.55;max-width:780px}
+.hint.hidden{visibility:hidden}
+.timer-row{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-top:28px}
+.timer{font-variant-numeric:tabular-nums;font-size:clamp(58px,10vw,104px);font-weight:950;letter-spacing:-.075em;line-height:.88}
+.timer.danger{color:var(--hot)}
+.timer-label{color:var(--muted);font-size:13px;text-align:right;line-height:1.4}
+.progress{height:4px;background:#26212d;border-radius:99px;overflow:hidden;margin-top:25px}.bar{height:100%;width:100%;background:var(--acid);transform-origin:left;transition:width .25s linear}
+.actions{display:grid;grid-template-columns:1.2fr 1fr auto;gap:10px;margin-top:14px}
+.btn{border-radius:17px;padding:17px 18px;font-weight:900;cursor:pointer;border:1px solid var(--line)}
+.primary{background:var(--acid);color:#0d0c0f;border-color:var(--acid)}
+.primary.running{background:var(--hot);border-color:var(--hot)}
+.secondary,.ghost{background:#1b1721;color:var(--text)}.ghost{width:58px}
+.sub{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:18px;color:#766f7c;font-size:12px;line-height:1.45}
+kbd{border:1px solid var(--line);border-bottom-width:2px;padding:2px 6px;border-radius:6px;color:#968da0}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#f4efe7;color:#111;padding:10px 14px;border-radius:12px;font-size:13px;font-weight:800;transition:.2s}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:680px){
+ .wrap{padding:18px 15px 40px}.hero{padding-top:52px}.badge{display:none}.toolbar{margin-top:24px}.toggle{width:100%;margin:5px 0 0}
+ .card{min-height:460px;border-radius:24px}.actions{grid-template-columns:1fr 1fr}.primary{grid-column:1/-1}.ghost{width:auto}
+ .sub{display:none}.timer-label{display:none}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header><div class="brand">ASTRO<b>✦</b>SPEAK</div><div class="badge">60 секунд · без подготовки · для практиков</div></header>
+
+<section class="hero">
+  <div class="kicker">Тренажёр астрологической импровизации</div>
+  <h1>Тема выпала.<br>Говори.</h1>
+  <p class="lead">Небанальные вопросы для Reels, сторис и прокачки профессиональной речи. Не вспоминай «правильный ответ» — сформулируй свою позицию.</p>
+</section>
+
+<div class="toolbar" id="filters"></div>
+
+<section class="card">
+  <div class="meta"><strong id="kind">Провокация</strong><span id="counter">тема 01</span></div>
+  <div>
+    <div class="topic" id="topic"></div>
+    <div class="hint" id="hint"></div>
+  </div>
+  <div>
+    <div class="timer-row">
+      <div class="timer" id="timer">01:00</div>
+      <div class="timer-label">Один тезис.<br>Один пример.<br>Один вывод.</div>
+    </div>
+    <div class="progress"><div class="bar" id="bar"></div></div>
+  </div>
+</section>
+
+<div class="actions">
+  <button class="btn primary" id="start">Начать минуту</button>
+  <button class="btn secondary" id="next">Другая тема ↗</button>
+  <button class="btn ghost" id="reset" title="Сбросить таймер">↺</button>
+</div>
+
+<div class="sub">
+  <span>Формула, если зависла: <b>позиция → почему → пример → вывод.</b></span>
+  <span><kbd>Space</kbd> старт/пауза · <kbd>N</kbd> новая тема</span>
+</div>
+</main>
+<div class="toast" id="toast">Время. Сохрани удачный дубль ✦</div>
+
+<script>
+const topics = [
+["Провокация","Когда «сильная» планета в карте может мешать человеку сильнее слабой?","Разрушь упрощение «сильное = хорошее». Покажи, как избыток функции становится проблемой."],
+["Провокация","Какая астрологическая трактовка звучит умно, но на практике почти ничего не объясняет?","Назови конкретную формулировку и объясни, почему она слишком универсальна."],
+["Провокация","Если убрать из консультации слово «предназначение», что станет точнее?","Сформулируй, чем ты заменяешь этот термин в реальной работе."],
+["Провокация","Что в астрологии люди чаще всего принимают за глубину, хотя это просто сложный язык?","Приведи пример профессионального жаргона, который можно сказать яснее."],
+["Провокация","Может ли «гармоничная» карта быть психологически сложнее напряжённой?","Защити тезис через адаптацию, мотивацию и привычку к фрустрации."],
+["Провокация","Какой популярный совет астролога ты бы запретила давать клиенту?","Объясни не только почему он неверен, но и чем способен навредить."],
+
+["Метод","Как отличить точную сигнификацию от красивого натягивания трактовки?","Назови свой внутренний критерий качества интерпретации."],
+["Метод","Что для тебя важнее: одна яркая сигнификация или повтор темы несколькими показателями?","Расскажи, как ты работаешь с повторяемостью и весом факторов."],
+["Метод","В какой момент нужно перестать добавлять новые техники и начать интерпретировать?","Опиши признак, что данных уже достаточно."],
+["Метод","Как ты понимаешь, что трактовка карты слишком буквальная?","Дай пример, где символ лучше читать как функцию, а не событие."],
+["Метод","Как отделить знание карты клиента от эффекта уже известной тебе биографии?","Расскажи, как проверяешь себя на ретроспективное подтверждение."],
+["Метод","Что делать, если разные техники дают противоречивые ответы на один вопрос?","Покажи свой порядок приоритетов, а не попытку свести всё любой ценой."],
+
+["Парадокс","Почему два человека с почти одинаковой картой могут проживать её противоположно?","Поговори о среде, возрасте, выборе, уровне развития функции и контексте."],
+["Парадокс","Почему точный прогноз иногда оказывается менее полезным, чем неточный?","Разбери разницу между угадыванием события и помощью человеку в навигации."],
+["Парадокс","Почему знание будущего иногда ухудшает решение клиента?","Покажи, как ожидание может сужать выбор или провоцировать самосбывающийся сценарий."],
+["Парадокс","Как одна и та же конфигурация может быть талантом в одной профессии и проблемой в другой?","Объясни через функцию, контекст и требования среды."],
+["Парадокс","Почему «проработанная» планета не перестаёт создавать напряжение?","Отдели зрелое использование функции от фантазии о полном устранении сложности."],
+["Парадокс","Почему человеку иногда сильнее откликается второстепенный показатель, чем главный?","Поговори о жизненном этапе, триггерах и актуальности темы."],
+
+["Кейс","Клиент спрашивает: «Когда я встречу любовь?» Как превратить вопрос в полезную консультацию?","Покажи, какие уточнения меняют качество ответа."],
+["Кейс","Клиент говорит: «У меня Сатурн всё блокирует». Как ты отвечаешь, не обесценивая его опыт?","Переведи фатальную формулировку в наблюдаемую функцию и варианты действий."],
+["Кейс","Клиент хочет уволиться только потому, что «начался плохой транзит». Что ты делаешь?","Раздели символический контекст, реальные факты и ответственность за решение."],
+["Кейс","Клиент просит посмотреть карту партнёра без его согласия. Где для тебя граница?","Сформулируй этический принцип и предложи безопасный способ работать с запросом."],
+["Кейс","Ты видишь потенциально тяжёлый период, а клиент его не спрашивал. Говорить или нет?","Объясни, от чего зависит решение и как меняется язык подачи."],
+["Кейс","Клиент хочет точную дату события, а карта даёт окно и несколько сценариев. Как это объяснить?","Продай не ложную точность, а полезность диапазона и условий."],
+
+["Техника","Когда транзит стоит читать как событие, а когда как внутренний процесс?","Назови признаки, по которым различаешь уровни проявления."],
+["Техника","Как не переоценивать медленные транзиты, которые длятся месяцами?","Расскажи о триггерах, точности, контексте и повторных проходах."],
+["Техника","Что важнее в синастрии: сильная химия или способность отношений выдерживать реальность?","Раздели показатели притяжения, совместимости быта и устойчивости."],
+["Техника","Когда управитель дома рассказывает больше, чем планеты внутри дома?","Покажи это на одном условном примере."],
+["Техника","Как читать пустой дом так, чтобы не превращать отсутствие планет в отсутствие событий?","Объясни логику управителя, аспектов и активаций."],
+["Техника","Почему один аспект нельзя трактовать одинаково во всех картах?","Свяжи аспект со знаком, домами, управлением и общей архитектурой карты."],
+
+["Этика","Где заканчивается прогноз и начинается программирование клиента?","Приведи фразы, которых ты избегаешь, и чем их заменяешь."],
+["Этика","Должен ли астролог говорить клиенту то, что тот не хочет слышать?","Раздели честность, границы запроса и желание специалиста «причинить правду»."],
+["Этика","Можно ли давать прогноз по здоровью, если ты не врач?","Сформулируй профессиональную границу и безопасный язык."],
+["Этика","Что опаснее: фатализм или чрезмерное «ты можешь всё»?","Покажи, как обе крайности искажают работу с реальными ограничениями."],
+["Этика","Когда астрологу лучше сказать «я не знаю»?","Назови ситуации, где неопределённость профессиональнее уверенного ответа."],
+["Этика","Как не превратить консультацию в зависимость клиента от следующих прогнозов?","Поговори об автономии клиента и том, какой должна быть хорошая конечная точка консультации."],
+
+["Reels","Объясни ретроградность без слов «назад», «карма» и «бывшие».","У тебя 60 секунд, чтобы дать небанальное, но понятное объяснение."],
+["Reels","Защити тезис: «Ваш солнечный знак — не самый интересный факт о вас».","Начни с сильного хука и быстро переведи разговор к структуре карты."],
+["Reels","Разнеси миф «несовместимые знаки не могут быть вместе» за одну минуту.","Дай один яркий пример, почему знак Солнца — слишком мало данных."],
+["Reels","Объясни, почему «плохих» планет нет, не впадая в сахарное «всё ресурс».","Сохрани сложность: функция может быть необходимой и неприятной одновременно."],
+["Reels","Скажи три вещи, которые ты никогда не обещаешь на консультации.","Сделай из профессиональных ограничений сильное позиционирование."],
+["Reels","Ответь на комментарий: «Астрология работает только потому, что формулировки подходят всем».","Не спорь агрессивно. Сформулируй, что именно в практике можно и нужно проверять."]
+];
+
+const categories = ["Все","Провокация","Метод","Парадокс","Кейс","Техника","Этика","Reels"];
+let active = "Все", current = null, used = new Set(), serial = 0;
+let left = 60, ticking = false, timerId = null;
+
+const $ = id => document.getElementById(id);
+const filters = $("filters");
+
+categories.forEach(cat=>{
+  const b=document.createElement("button");
+  b.className="chip"+(cat==="Все"?" active":"");
+  b.textContent=cat;
+  b.onclick=()=>{active=cat;used.clear();document.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));b.classList.add("active");pick();};
+  filters.appendChild(b);
+});
+const label=document.createElement("label");
+label.className="toggle";
+label.innerHTML='<input type="checkbox" id="hideHint"> скрыть подсказку';
+filters.appendChild(label);
+$("hideHint").onchange=e=>$("hint").classList.toggle("hidden",e.target.checked);
+
+function pool(){
+  return topics.map((t,i)=>({t,i})).filter(x=>active==="Все"||x.t[0]===active);
+}
+function pick(){
+  stop(false); left=60; renderTimer();
+  let p=pool().filter(x=>!used.has(x.i));
+  if(!p.length){used.clear();p=pool();}
+  const x=p[Math.floor(Math.random()*p.length)];
+  current=x; used.add(x.i); serial++;
+  $("kind").textContent=x.t[0];
+  $("topic").textContent=x.t[1];
+  $("hint").textContent="Куда копнуть: "+x.t[2];
+  $("counter").textContent="тема "+String(serial).padStart(2,"0");
+  $("bar").style.width="100%";
+}
+function renderTimer(){
+  $("timer").textContent="00:"+String(left).padStart(2,"0");
+  if(left===60)$("timer").textContent="01:00";
+  $("timer").classList.toggle("danger",left<=10);
+  $("bar").style.width=(left/60*100)+"%";
+}
+function stop(changeText=true){
+  clearInterval(timerId);timerId=null;ticking=false;
+  $("start").classList.remove("running");
+  if(changeText)$("start").textContent=left===60?"Начать минуту":"Продолжить";
+}
+function toggle(){
+  if(ticking){stop();return;}
+  if(left<=0){left=60;renderTimer();}
+  ticking=true;$("start").textContent="Пауза";$("start").classList.add("running");
+  timerId=setInterval(()=>{
+    left--;renderTimer();
+    if(left<=0){
+      stop(false);$("start").textContent="Ещё дубль";showToast();
+      if(navigator.vibrate)navigator.vibrate([120,80,120]);
+    }
+  },1000);
+}
+function reset(){stop(false);left=60;renderTimer();$("start").textContent="Начать минуту";}
+function showToast(){const t=$("toast");t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2200);}
+
+$("start").onclick=toggle;
+$("next").onclick=pick;
+$("reset").onclick=reset;
+document.addEventListener("keydown",e=>{
+  if(e.code==="Space"){e.preventDefault();toggle();}
+  if(e.key.toLowerCase()==="n")pick();
+});
+pick();
+</script>
+</body>
+</html>
