@@ -283,9 +283,10 @@ function(x){return "Ситуация: " + x + ". Сформулируй мину
 ]
 ];
 
+const selectedCores = cores.filter(function(_,i){ return i % 10 !== 9; });
 const topics = [];
 for(let level=0; level<5; level++){
-  cores.forEach(function(core, i){
+  selectedCores.forEach(function(core, i){
     topics.push({difficulty:level+1, label:labels[level], text:lens[level][i%10](core)});
   });
 }
