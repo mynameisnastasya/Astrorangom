@@ -16,13 +16,9 @@
 body{margin:0;min-height:100vh;color:var(--paper);font-family:Manrope,system-ui,sans-serif;overflow-x:hidden;background:radial-gradient(900px 560px at 82% -8%,rgba(105,72,112,.22),transparent 62%),radial-gradient(780px 520px at -8% 76%,rgba(68,99,92,.15),transparent 64%),#09080d}
 body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:40;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitchTiles'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E")}
 button,a{font:inherit}button{color:inherit}button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
-.shell{width:min(1080px,100%);margin:0 auto;padding:22px clamp(16px,4vw,42px) 58px}
-.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px}
-.brand{display:flex;align-items:center;gap:9px;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#d7ced9}.brand:before{content:"✦";color:var(--gold)}
-.count{font-size:10px;color:#8f8793;letter-spacing:.12em;text-transform:uppercase}
-.hero{max-width:720px;margin:44px auto 24px;text-align:center}
-.eyebrow{font-size:10px;color:var(--gold);letter-spacing:.18em;text-transform:uppercase;margin-bottom:13px}
-h1{font:600 clamp(46px,7vw,78px)/.91 "Cormorant Garamond",serif;letter-spacing:-.045em;margin:0;text-wrap:balance}
+.shell{width:min(1080px,100%);margin:0 auto;padding:18px clamp(16px,4vw,42px) 58px}
+.hero{max-width:720px;margin:18px auto 24px;text-align:center}
+h1{font:600 clamp(42px,6vw,70px)/.94 "Cormorant Garamond",serif;letter-spacing:-.045em;margin:0;text-wrap:balance}
 .lead{margin:17px auto 0;max-width:590px;color:var(--muted);font-size:13px;line-height:1.72}
 .practice{display:grid;grid-template-columns:minmax(300px,470px) minmax(250px,350px);justify-content:center;align-items:center;gap:clamp(28px,6vw,76px);margin-top:32px}
 .card-wrap{position:relative;width:100%;max-width:450px;margin:auto;perspective:1600px}
@@ -64,15 +60,9 @@ h1{font:600 clamp(46px,7vw,78px)/.91 "Cormorant Garamond",serif;letter-spacing:-
 </head>
 <body>
 <main class="shell">
-  <div class="topbar">
-    <div class="brand">Внутренние миры · Елизавета</div>
-    <div class="count" id="deckCount">666 карт</div>
-  </div>
-
   <section class="hero">
-    <div class="eyebrow">666 метафорических карт от астролога Елизаветы</div>
-    <h1>Увидь своё в случайном образе.</h1>
-    <p class="lead">Здесь нет сфер, готовых значений и «правильных» трактовок. Держи в голове любой свой запрос, вытяни карту и заметь первую ассоциацию. Название — только направление внимания, а не ответ за тебя.</p>
+    <h1>Внутренние миры</h1>
+    <p class="lead">Вытяни карту и заметь первую ассоциацию.</p>
   </section>
 
   <section class="practice" aria-label="Практика с метафорическими картами">
@@ -133,7 +123,7 @@ const sourceLink=document.getElementById("sourceLink");
 const drawBtn=document.getElementById("drawBtn");
 const againBtn=document.getElementById("againBtn");
 const resetBtn=document.getElementById("resetBtn");
-const deckCount=document.getElementById("deckCount");
+const deckCount=null;
 const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
 let pile=[];
 
@@ -142,7 +132,7 @@ function shuffle(){
   for(let i=pile.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pile[i],pile[j]]=[pile[j],pile[i]]}
   updateCount();
 }
-function updateCount(){deckCount.textContent=(pile.length||cards.length)+" из 666"}
+function updateCount(){}
 function pexelsPage(c){return "https://www.pexels.com/video/"+c.slug+"/"}
 function pexelsMedia(c){return "https://www.pexels.com/download/video/"+c.video+"/"}
 function clearVideo(){
