@@ -3,103 +3,281 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#09080d">
+<meta name="theme-color" content="#09070c">
 <meta name="robots" content="noindex,nofollow,noarchive">
-<title>Внутренние миры — 666 метафорических карт</title>
-<meta name="description" content="666 универсальных метафорических ассоциативных карт от астролога Елизаветы.">
+<title>Внутренние миры — метафорические карты Елизаветы</title>
+<meta name="description" content="Метафорические ассоциативные карты от астролога Елизаветы · @liz_ty666">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#09080d;--paper:#f3eee6;--muted:#aaa2ad;--line:rgba(255,255,255,.13);--gold:#d8c19a;--shadow:0 42px 120px rgba(0,0,0,.62)}
-*{box-sizing:border-box}html{background:var(--bg);color-scheme:dark}
-body{margin:0;min-height:100vh;color:var(--paper);font-family:Manrope,system-ui,sans-serif;overflow-x:hidden;background:radial-gradient(900px 560px at 82% -8%,rgba(105,72,112,.22),transparent 62%),radial-gradient(780px 520px at -8% 76%,rgba(68,99,92,.15),transparent 64%),#09080d}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:40;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitchTiles'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E")}
-button,a{font:inherit}button{color:inherit}button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
-.shell{width:min(1080px,100%);margin:0 auto;padding:18px clamp(16px,4vw,42px) 58px}
-.hero{max-width:720px;margin:18px auto 24px;text-align:center}
-h1{font:600 clamp(42px,6vw,70px)/.94 "Cormorant Garamond",serif;letter-spacing:-.045em;margin:0;text-wrap:balance}
-.lead{margin:17px auto 0;max-width:590px;color:var(--muted);font-size:13px;line-height:1.72}
-.practice{display:grid;grid-template-columns:minmax(300px,470px) minmax(250px,350px);justify-content:center;align-items:center;gap:clamp(28px,6vw,76px);margin-top:32px}
-.card-wrap{position:relative;width:100%;max-width:450px;margin:auto;perspective:1600px}
-.card-shadow{position:absolute;inset:8% -5% -3%;border-radius:38px;background:#000;filter:blur(35px);opacity:.5}
-.card{position:relative;width:100%;aspect-ratio:2/3;border-radius:30px;overflow:hidden;border:1px solid rgba(255,255,255,.18);background:linear-gradient(145deg,#211a24,#0d0a11 65%,#17121a);box-shadow:var(--shadow);transform-style:preserve-3d}
-.card.flipping{animation:draw .86s cubic-bezier(.22,.7,.2,1)}
-@keyframes draw{0%{transform:translateY(8px) rotateY(0) scale(.985)}48%{transform:translateY(-8px) rotateY(86deg) scale(.96)}100%{transform:translateY(0) rotateY(0) scale(1)}}
-.card-back,.card-face{position:absolute;inset:0}.card-back{display:grid;place-items:center;text-align:center;overflow:hidden;background:radial-gradient(circle at 50% 42%,rgba(216,193,154,.14),transparent 30%),repeating-radial-gradient(circle at 50% 45%,transparent 0 32px,rgba(216,193,154,.04) 33px 34px),linear-gradient(145deg,#261d29,#0f0c13 62%,#15121b)}
-.card-back:before{content:"";position:absolute;inset:16px;border:1px solid rgba(216,193,154,.46);border-radius:22px;box-shadow:inset 0 0 0 6px rgba(216,193,154,.025)}
-.card-back:after{content:"✦";font:500 78px/1 "Cormorant Garamond",serif;color:rgba(216,193,154,.74);text-shadow:0 0 44px rgba(216,193,154,.2)}
-.back-copy{position:absolute;left:30px;right:30px;bottom:32px;z-index:2;color:#c7bac7;font-size:10px;letter-spacing:.19em;text-transform:uppercase}
-.card-face{opacity:0;background:radial-gradient(circle at 50% 34%,#29212d,#110d14 70%);transition:opacity .38s ease .32s}
-.card.revealed .card-face{opacity:1}.card.revealed .card-back{opacity:0;transition:opacity .22s ease .17s}
-.card video{position:absolute;inset:-1px;width:calc(100% + 2px);height:calc(100% + 2px);object-fit:cover;filter:brightness(.69) saturate(.82) contrast(1.04);transform:scale(1.02);opacity:0;transition:opacity .5s ease}
-.card.video-ready video{opacity:1}
-.card-face:before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(to bottom,rgba(5,4,8,.14) 0%,rgba(5,4,8,.02) 35%,rgba(5,4,8,.2) 58%,rgba(5,4,8,.9) 100%),radial-gradient(80% 60% at 50% 36%,transparent 0,rgba(5,4,8,.05) 58%,rgba(5,4,8,.28) 100%)}
-.card-face:after{content:"";position:absolute;inset:14px;border:1px solid rgba(255,255,255,.22);border-radius:22px;z-index:3;pointer-events:none}
-.face-top{position:absolute;z-index:4;top:28px;left:28px;right:28px;display:flex;justify-content:space-between;align-items:center;text-shadow:0 2px 15px #000}
-.card-number,.deck-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.88)}
-.card-title{position:absolute;z-index:4;left:30px;right:30px;bottom:31px;margin:0;font:600 clamp(34px,5.8vw,50px)/.93 "Cormorant Garamond",serif;letter-spacing:-.035em;text-wrap:balance;text-shadow:0 3px 22px rgba(0,0,0,.86)}
-.side{align-self:center}
-.side-kicker{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:11px}
-.side h2{margin:0;font:600 34px/1 "Cormorant Garamond",serif;letter-spacing:-.025em}
-.side-copy{margin:13px 0 22px;color:#918895;font-size:12px;line-height:1.68}
-.draw{width:100%;border:1px solid rgba(216,193,154,.5);background:var(--paper);color:#171319;padding:15px 20px;border-radius:999px;cursor:pointer;font-weight:700;font-size:13px;transition:transform .18s ease,background .18s ease}
-.draw:hover{transform:translateY(-2px);background:#fff}.draw:active{transform:none}.draw[disabled]{opacity:.55;cursor:wait}
-.reflection{margin-top:25px;padding-top:22px;border-top:1px solid var(--line);opacity:.28;transition:.35s ease}
-.reflection.visible{opacity:1}
-.prompt{padding:0 0 14px}.prompt:last-of-type{padding-bottom:0}
-.prompt b{display:block;color:#726a76;font-size:9px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px}
-.prompt span{display:block;font:500 21px/1.15 "Cormorant Garamond",serif;color:#ede5ed}
-.source{display:none;margin-top:18px;color:#887e8b;font-size:9px;letter-spacing:.09em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.13);padding-bottom:3px}.reflection.visible .source{display:inline-flex}.source:hover{color:#d7cbd7}
-.actions{display:flex;gap:9px;margin-top:21px}.secondary{flex:1;border:1px solid var(--line);background:rgba(255,255,255,.035);padding:12px 14px;border-radius:999px;cursor:pointer;font-size:11px}.secondary:hover{background:rgba(255,255,255,.07)}
-.credit{max-width:760px;margin:44px auto 0;text-align:center;color:#766e79;font-size:10px;line-height:1.7}.credit strong{color:#9b909e;font-weight:600}.credit a{color:#cdbda7;text-decoration:none;border-bottom:1px solid rgba(205,189,167,.32)}
-@media(max-width:800px){.hero{margin-top:34px}.practice{grid-template-columns:1fr;gap:30px}.card-wrap{max-width:min(410px,88vw)}.side{width:min(450px,100%);margin:auto;text-align:center}.actions{max-width:360px;margin-left:auto;margin-right:auto}.draw{max-width:360px}}
-@media(max-width:480px){.shell{padding-top:18px}.hero{margin-top:27px}.lead{font-size:12px}.card{border-radius:26px}.card-face:after,.card-back:before{inset:12px;border-radius:18px}.card-title{left:26px;right:26px;bottom:27px}.face-top{left:26px;right:26px;top:25px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+:root{
+  --bg:#09070c;
+  --paper:#f5efe7;
+  --ink:#151118;
+  --muted:#978f99;
+  --line:rgba(255,255,255,.11);
+  --accent:#c9b08a;
+  --accent-rgb:201,176,138;
+  --ease:cubic-bezier(.22,.78,.22,1);
+}
+*{box-sizing:border-box}
+html{background:var(--bg);color-scheme:dark}
+body{
+  margin:0;min-height:100dvh;color:var(--paper);font-family:Manrope,system-ui,sans-serif;overflow-x:hidden;
+  background:
+    radial-gradient(900px 720px at 20% 16%,rgba(var(--accent-rgb),.09),transparent 64%),
+    radial-gradient(840px 680px at 92% 84%,rgba(100,78,116,.10),transparent 66%),
+    linear-gradient(180deg,#0b090e 0%,#08070a 100%);
+  transition:background 1s ease;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.028;mix-blend-mode:soft-light;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='3' stitchTiles='stitchTiles'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.95'/%3E%3C/svg%3E")
+}
+button,a{font:inherit}
+button{color:inherit}
+button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+
+.ambient{position:fixed;pointer-events:none;border-radius:50%;filter:blur(90px);opacity:.34;transition:background 1s ease,transform 1.2s var(--ease)}
+.ambient.a{width:34vw;height:34vw;left:-12vw;top:4vh;background:rgba(var(--accent-rgb),.13)}
+.ambient.b{width:30vw;height:30vw;right:-10vw;bottom:-4vh;background:rgba(119,91,125,.10)}
+
+.experience{
+  position:relative;z-index:1;min-height:100dvh;width:min(1120px,100%);margin:auto;
+  padding:max(22px,env(safe-area-inset-top)) clamp(18px,4vw,52px) max(24px,env(safe-area-inset-bottom));
+  display:grid;grid-template-rows:1fr auto;
+}
+.stage{
+  align-self:center;display:grid;grid-template-columns:minmax(310px,450px) minmax(270px,340px);
+  align-items:center;justify-content:center;gap:clamp(34px,7vw,88px);padding:18px 0;
+}
+.card-wrap{position:relative;width:100%;max-width:450px;margin:auto;perspective:1800px}
+.card-glow{
+  position:absolute;inset:9% -7% -4%;border-radius:42px;filter:blur(42px);
+  background:radial-gradient(circle,rgba(var(--accent-rgb),.22),transparent 66%);
+  opacity:.72;transform:translateY(16px);transition:background .8s ease,opacity .8s ease
+}
+.card{
+  position:relative;width:100%;aspect-ratio:2/3;overflow:hidden;border-radius:32px;
+  border:1px solid rgba(255,255,255,.16);
+  background:#17131b;box-shadow:0 54px 130px rgba(0,0,0,.64),0 8px 28px rgba(0,0,0,.38);
+  transform-style:preserve-3d;will-change:transform;
+}
+.card:after{
+  content:"";position:absolute;inset:0;z-index:20;pointer-events:none;border-radius:inherit;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16),inset 0 -1px 0 rgba(0,0,0,.35)
+}
+.card.flipping{animation:draw .9s var(--ease)}
+@keyframes draw{
+  0%{transform:translateY(0) rotateY(0) scale(1)}
+  44%{transform:translateY(-10px) rotateY(88deg) scale(.955)}
+  56%{transform:translateY(-10px) rotateY(92deg) scale(.955)}
+  100%{transform:translateY(0) rotateY(0) scale(1)}
+}
+.card-back,.card-face{position:absolute;inset:0}
+.card-back{
+  display:grid;place-items:center;overflow:hidden;text-align:center;
+  background:
+    radial-gradient(circle at 50% 38%,rgba(var(--accent-rgb),.12),transparent 28%),
+    linear-gradient(145deg,#211a25 0%,#0e0b11 60%,#18131b 100%)
+}
+.card-back:before{
+  content:"";position:absolute;inset:16px;border:1px solid rgba(var(--accent-rgb),.42);border-radius:24px;
+  background:
+    radial-gradient(circle at 50% 42%,transparent 0 38px,rgba(var(--accent-rgb),.10) 39px 40px,transparent 41px 73px,rgba(var(--accent-rgb),.07) 74px 75px,transparent 76px);
+}
+.back-mark{
+  position:relative;z-index:2;width:116px;height:116px;border:1px solid rgba(var(--accent-rgb),.38);border-radius:50%;
+  display:grid;place-items:center;font:500 62px/1 "Cormorant Garamond",serif;color:var(--accent);
+  box-shadow:0 0 70px rgba(var(--accent-rgb),.08)
+}
+.back-brand{
+  position:absolute;z-index:2;left:30px;right:30px;bottom:34px;
+  display:flex;flex-direction:column;gap:5px;align-items:center
+}
+.back-brand strong{font:600 18px/1 "Cormorant Garamond",serif;letter-spacing:.04em}
+.back-brand span{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:#8f8492}
+
+.card-face{opacity:0;background:radial-gradient(circle at 50% 35%,#2a2230,#110e14 72%);transition:opacity .28s ease .38s}
+.card.revealed .card-face{opacity:1}
+.card.revealed .card-back{opacity:0;transition:opacity .18s ease .2s}
+.card video{
+  position:absolute;inset:-2px;width:calc(100% + 4px);height:calc(100% + 4px);object-fit:cover;
+  filter:brightness(.72) saturate(.86) contrast(1.04);opacity:0;transform:scale(1.035);
+  transition:opacity .65s ease;
+}
+.card.video-ready video{opacity:1;animation:livingFrame 14s ease-in-out infinite alternate}
+@keyframes livingFrame{from{transform:scale(1.035)}to{transform:scale(1.075)}}
+.card-face:before{
+  content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:
+    linear-gradient(to bottom,rgba(4,3,6,.30) 0%,rgba(4,3,6,.04) 28%,rgba(4,3,6,.06) 47%,rgba(4,3,6,.26) 66%,rgba(4,3,6,.92) 100%),
+    radial-gradient(85% 62% at 50% 36%,transparent 0,rgba(4,3,6,.05) 58%,rgba(4,3,6,.26) 100%)
+}
+.card-face:after{
+  content:"";position:absolute;inset:14px;z-index:3;border:1px solid rgba(255,255,255,.20);border-radius:24px;pointer-events:none
+}
+.face-top{
+  position:absolute;z-index:4;top:30px;left:30px;right:30px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px
+}
+.card-number,.deck-label{
+  font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.78);
+  text-shadow:0 2px 14px rgba(0,0,0,.65)
+}
+.card-title-wrap{position:absolute;z-index:4;left:30px;right:30px;bottom:30px}
+.card-kicker{
+  display:block;margin-bottom:9px;font-size:8px;letter-spacing:.19em;text-transform:uppercase;color:rgba(255,255,255,.58)
+}
+.card-title{
+  margin:0;max-width:94%;font:600 clamp(38px,5.4vw,54px)/.92 "Cormorant Garamond",serif;
+  letter-spacing:-.035em;text-wrap:balance;text-shadow:0 4px 24px rgba(0,0,0,.82)
+}
+
+.panel{align-self:center}
+.panel-pre{transition:opacity .3s ease,transform .3s ease}
+.panel-pre.muted{opacity:.42}
+.micro{
+  display:flex;align-items:center;gap:10px;margin-bottom:16px;font-size:9px;letter-spacing:.17em;text-transform:uppercase;color:#827988
+}
+.micro:before{content:"";width:34px;height:1px;background:rgba(var(--accent-rgb),.48)}
+.panel h1{
+  margin:0;max-width:320px;font:500 clamp(34px,4vw,46px)/.98 "Cormorant Garamond",serif;
+  letter-spacing:-.035em;text-wrap:balance
+}
+.panel-copy{margin:15px 0 25px;max-width:300px;color:#8e8791;font-size:12px;line-height:1.7}
+.draw{
+  position:relative;width:100%;min-height:54px;border:0;border-radius:999px;overflow:hidden;cursor:pointer;
+  background:var(--paper);color:var(--ink);font-size:12px;font-weight:600;letter-spacing:.02em;
+  box-shadow:0 12px 34px rgba(0,0,0,.22);transition:transform .18s ease,box-shadow .18s ease,background .18s ease
+}
+.draw span{position:relative;z-index:2}
+.draw:before{
+  content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 15%,rgba(var(--accent-rgb),.25) 50%,transparent 85%);
+  transform:translateX(-120%);transition:transform .7s var(--ease)
+}
+.draw:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(0,0,0,.28)}
+.draw:hover:before{transform:translateX(120%)}
+.draw:active{transform:translateY(0) scale(.99)}
+.draw[disabled]{opacity:.55;cursor:wait;transform:none}
+
+.reflection{
+  margin-top:27px;padding:22px 0 0;border-top:1px solid var(--line);
+  opacity:0;transform:translateY(10px);pointer-events:none;transition:.5s var(--ease)
+}
+.reflection.visible{opacity:1;transform:none;pointer-events:auto}
+.reflection-title{margin:0 0 16px;font:500 21px/1.15 "Cormorant Garamond",serif;color:#dcd4dd}
+.prompts{display:grid;gap:13px}
+.prompt{display:grid;grid-template-columns:18px 1fr;gap:10px;align-items:start}
+.prompt i{font-style:normal;font-size:9px;color:rgba(var(--accent-rgb),.72);padding-top:4px}
+.prompt span{font:500 18px/1.2 "Cormorant Garamond",serif;color:#bfb6c2}
+.actions{display:flex;gap:9px;margin-top:20px}
+.secondary{
+  flex:1;min-height:42px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.025);
+  cursor:pointer;color:#aaa1ae;font-size:10px;transition:background .18s ease,border-color .18s ease,color .18s ease
+}
+.secondary:hover{background:rgba(255,255,255,.055);border-color:rgba(255,255,255,.18);color:#e5dee7}
+
+.footer{
+  display:flex;justify-content:center;align-items:center;gap:10px;padding-top:18px;
+  color:#6f6872;font-size:9px;letter-spacing:.04em;text-align:center
+}
+.footer i{width:3px;height:3px;border-radius:50%;background:rgba(var(--accent-rgb),.5)}
+.footer a{color:#a89d90;text-decoration:none;border-bottom:1px solid rgba(168,157,144,.22);padding-bottom:2px}
+.footer a:hover{color:#d8cab9}
+
+@media(max-width:800px){
+  .experience{display:block;min-height:100dvh;padding-top:max(18px,env(safe-area-inset-top))}
+  .stage{grid-template-columns:1fr;gap:28px;padding:10px 0 0}
+  .card-wrap{max-width:min(405px,88vw)}
+  .panel{width:min(420px,100%);margin:auto;text-align:center}
+  .micro{justify-content:center}.micro:before{display:none}
+  .panel h1{margin-inline:auto;font-size:34px}
+  .panel-copy{margin:12px auto 20px}
+  .draw{max-width:360px}
+  .reflection{max-width:390px;margin:24px auto 0;text-align:left}
+  .footer{padding:34px 0 8px}
+}
+@media(max-width:480px){
+  .experience{padding-inline:14px}
+  .stage{gap:22px}
+  .card-wrap{max-width:min(390px,91vw)}
+  .card{border-radius:28px}
+  .card-face:after,.card-back:before{inset:11px;border-radius:20px}
+  .face-top{top:25px;left:25px;right:25px}
+  .card-title-wrap{left:25px;right:25px;bottom:26px}
+  .card-title{font-size:clamp(35px,10vw,46px)}
+  .panel h1{font-size:31px}
+  .panel-copy{font-size:11px}
+}
+@media(hover:hover) and (min-width:801px){
+  .card-wrap:hover .card{transform:translateY(-3px)}
+  .card{transition:transform .45s var(--ease)}
+  .card.flipping{transition:none}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
 </style>
 </head>
 <body>
-<main class="shell">
-  <section class="hero">
-    <h1>Внутренние миры</h1>
-    <p class="lead">Вытяни карту и заметь первую ассоциацию.</p>
-  </section>
+<div class="ambient a" aria-hidden="true"></div>
+<div class="ambient b" aria-hidden="true"></div>
 
-  <section class="practice" aria-label="Практика с метафорическими картами">
+<main class="experience">
+  <section class="stage" aria-label="Метафорические карты">
     <div class="card-wrap">
-      <div class="card-shadow" aria-hidden="true"></div>
+      <div class="card-glow" aria-hidden="true"></div>
       <article class="card" id="card" aria-live="polite">
-        <div class="card-back"><div class="back-copy">666 метафорических карт</div></div>
+        <div class="card-back">
+          <div class="back-mark">✦</div>
+          <div class="back-brand">
+            <strong>Внутренние миры</strong>
+            <span>666 метафорических карт</span>
+          </div>
+        </div>
         <div class="card-face">
           <video id="cardVideo" muted loop playsinline preload="metadata" aria-hidden="true"></video>
           <div class="face-top">
             <span class="card-number" id="cardNumber">001 / 666</span>
             <span class="deck-label">Внутренние миры</span>
           </div>
-          <h2 class="card-title" id="cardTitle"></h2>
+          <div class="card-title-wrap">
+            <span class="card-kicker">Метафорическая карта</span>
+            <h2 class="card-title" id="cardTitle"></h2>
+          </div>
         </div>
       </article>
     </div>
 
-    <aside class="side">
-      <div class="side-kicker">Любой запрос · без категорий</div>
-      <h2>Вытяни один образ.</h2>
-      <p class="side-copy">Не формулируй ничего в поле и не выбирай тему. Просто держи свой вопрос в голове — или тяни карту вообще без вопроса.</p>
-      <button class="draw" id="drawBtn" type="button">Вытянуть карту</button>
+    <aside class="panel">
+      <div class="panel-pre" id="panelPre">
+        <div class="micro">Любой запрос</div>
+        <h1>Оставь вопрос внутри себя.</h1>
+        <p class="panel-copy">Не ищи правильного ответа. Вытяни образ и заметь, что отозвалось первым.</p>
+        <button class="draw" id="drawBtn" type="button"><span>Вытянуть карту ✦</span></button>
+      </div>
 
       <div class="reflection" id="reflection">
-        <div class="prompt"><b>01 · Сначала</b><span>Что ты заметила первым?</span></div>
-        <div class="prompt"><b>02 · Потом</b><span>Какое чувство или ассоциация появилась?</span></div>
-        <div class="prompt"><b>03 · И только после</b><span>Как этот образ может быть связан с твоим запросом?</span></div>
+        <h3 class="reflection-title">Не объясняй сразу. Сначала почувствуй.</h3>
+        <div class="prompts">
+          <div class="prompt"><i>01</i><span>Что ты заметила первым?</span></div>
+          <div class="prompt"><i>02</i><span>Что это вызывает внутри?</span></div>
+          <div class="prompt"><i>03</i><span>Где это встречается в твоём запросе?</span></div>
+        </div>
         <div class="actions">
-          <button class="secondary" id="againBtn" type="button">Ещё карта</button>
-          <button class="secondary" id="resetBtn" type="button">Сначала</button>
+          <button class="secondary" id="againBtn" type="button">Другая карта</button>
+          <button class="secondary" id="resetBtn" type="button">Закрыть</button>
         </div>
       </div>
     </aside>
   </section>
 
-  <p class="credit"><strong>Автор колоды — астролог Елизавета</strong><br>Instagram <a href="https://www.instagram.com/liz_ty666/" target="_blank" rel="noopener noreferrer">@liz_ty666</a></p>
+  <footer class="footer">
+    <span>Колода астролога Елизаветы</span><i aria-hidden="true"></i>
+    <a href="https://www.instagram.com/liz_ty666/" target="_blank" rel="noopener noreferrer">@liz_ty666</a>
+  </footer>
 </main>
 
 <script>
@@ -109,11 +287,26 @@ const video=document.getElementById("cardVideo");
 const titleEl=document.getElementById("cardTitle");
 const numberEl=document.getElementById("cardNumber");
 const reflection=document.getElementById("reflection");
+const panelPre=document.getElementById("panelPre");
 const drawBtn=document.getElementById("drawBtn");
 const againBtn=document.getElementById("againBtn");
 const resetBtn=document.getElementById("resetBtn");
 const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
 let pile=[];
+
+const themeAccents={
+  forest:["#9caf8c","156,175,140"],ocean:["#91aeb7","145,174,183"],door:["#c8aa83","200,170,131"],
+  road:["#b6a38f","182,163,143"],train:["#a99ca4","169,156,164"],rain:["#879ba8","135,155,168"],
+  clouds:["#a7a8b2","167,168,178"],birds:["#a8b7c5","168,183,197"],flowers:["#c6a0aa","198,160,170"],
+  field:["#b5aa7f","181,170,127"],mountain:["#9aa39e","154,163,158"],river:["#8eabb0","142,171,176"],
+  desert:["#c3a17d","195,161,125"],snow:["#b9c4ca","185,196,202"],fire:["#c88464","200,132,100"],
+  candle:["#caa879","202,168,121"],mirror:["#aaa1b5","170,161,181"],hands:["#b99e93","185,158,147"],
+  book:["#ad9279","173,146,121"],letter:["#b29a89","178,154,137"],stairs:["#9f9ba7","159,155,167"],
+  boat:["#91a6ad","145,166,173"],citynight:["#9886ad","152,134,173"],sunset:["#c78b70","199,139,112"],
+  fog:["#9c9fa4","156,159,164"],lake:["#8fa7ad","143,167,173"],beach:["#bca98c","188,169,140"],
+  shadow:["#8f8196","143,129,150"],anxiety:["#a68188","166,129,136"],loneliness:["#87929f","135,146,159"],
+  roots:["#a08d6f","160,141,111"],anger:["#b06f68","176,111,104"],dark:["#7e7287","126,114,135"]
+};
 
 function shuffled(arr){
   const a=[...arr];
@@ -121,7 +314,12 @@ function shuffled(arr){
   return a;
 }
 function buildPile(){pile=shuffled([...Array(cards.length).keys()])}
-function pexelsMedia(c){return "https://www.pexels.com/download/video/"+c.id+"/"}
+function mediaUrl(c){return "https://www.pexels.com/download/video/"+c.id+"/"}
+function setAccent(theme){
+  const [hex,rgb]=themeAccents[theme]||["#c9b08a","201,176,138"];
+  document.documentElement.style.setProperty("--accent",hex);
+  document.documentElement.style.setProperty("--accent-rgb",rgb);
+}
 function clearVideo(){
   cardEl.classList.remove("video-ready");
   video.pause();
@@ -131,31 +329,39 @@ function clearVideo(){
 function draw(){
   if(!pile.length)buildPile();
   const c=cards[pile.pop()];
+  const publicNumber=((c.n-1)%666)+1;
+
   drawBtn.disabled=true;
   againBtn.disabled=true;
   reflection.classList.remove("visible");
+  panelPre.classList.add("muted");
   cardEl.classList.remove("revealed","flipping");
   clearVideo();
+  setAccent(c.theme);
 
   titleEl.textContent=c.title;
-  const publicNumber=((c.n-1)%666)+1;numberEl.textContent=String(publicNumber).padStart(3,"0")+" / 666";
+  numberEl.textContent=String(publicNumber).padStart(3,"0")+" / 666";
 
   void cardEl.offsetWidth;
   cardEl.classList.add("flipping");
 
   setTimeout(()=>{
     cardEl.classList.add("revealed");
-    video.src=pexelsMedia(c);
+    video.src=mediaUrl(c);
     video.load();
-    if(!reduced){const p=video.play();if(p&&p.catch)p.catch(()=>{})}
-  },390);
+    if(!reduced){
+      const p=video.play();
+      if(p&&p.catch)p.catch(()=>{});
+    }
+    if(navigator.vibrate)navigator.vibrate(12);
+  },405);
 
   setTimeout(()=>{
     cardEl.classList.remove("flipping");
     reflection.classList.add("visible");
     drawBtn.disabled=false;
     againBtn.disabled=false;
-  },880);
+  },900);
 }
 video.addEventListener("canplay",()=>cardEl.classList.add("video-ready"));
 video.addEventListener("loadeddata",()=>cardEl.classList.add("video-ready"));
@@ -163,11 +369,17 @@ video.addEventListener("error",()=>cardEl.classList.remove("video-ready"));
 drawBtn.addEventListener("click",draw);
 againBtn.addEventListener("click",draw);
 resetBtn.addEventListener("click",()=>{
-  buildPile();
   clearVideo();
   cardEl.classList.remove("revealed","flipping");
   reflection.classList.remove("visible");
+  panelPre.classList.remove("muted");
+  setAccent("default");
   window.scrollTo({top:0,behavior:reduced?"auto":"smooth"});
+});
+document.addEventListener("keydown",e=>{
+  if((e.code==="Space"||e.key==="Enter")&&!drawBtn.disabled&&document.activeElement===document.body){
+    e.preventDefault();draw();
+  }
 });
 buildPile();
 </script>
