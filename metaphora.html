@@ -119,12 +119,21 @@ const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
 let pile=[];
 function shuffled(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function buildPile(){
-  const rounds=[];
+  const drawOrder=[];
+  let previousSource=-1;
   for(let variant=0;variant<6;variant++){
-    const ids=[];cards.forEach((c,i)=>{if(c.variant===variant)ids.push(i)});
-    if(ids.length)rounds.push(shuffled(ids));
+    let ids=[];cards.forEach((c,i)=>{if(c.variant===variant)ids.push(i)});
+    ids=shuffled(ids);
+    if(ids.length && cards[ids[0]].sourceIndex===previousSource){
+      const swapAt=ids.findIndex(i=>cards[i].sourceIndex!==previousSource);
+      if(swapAt>0)[ids[0],ids[swapAt]]=[ids[swapAt],ids[0]];
+    }
+    for(const id of ids){
+      drawOrder.push(id);
+      previousSource=cards[id].sourceIndex;
+    }
   }
-  pile=rounds.reverse().flat();
+  pile=drawOrder.reverse();
 }
 function pexelsPage(s){return "https://www.pexels.com/video/"+s.slug+"/"}
 function pexelsMedia(s){return "https://www.pexels.com/download/video/"+s.id+"/"}
