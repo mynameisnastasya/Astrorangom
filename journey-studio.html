@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#070a0f" />
+  <title>Journey Studio</title>
+  <link rel="preconnect" href="https://unpkg.com" />
+  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <style>
+    :root {
+      --bg:#070a0f; --panel:#0d121a; --panel2:#111925; --line:#202a38; --text:#f7fbff;
+      --muted:#8c99ac; --accent:#2f7cff; --accent2:#68a5ff; --danger:#ff5a6b; --ok:#48d597;
+      --radius:22px; --shadow:0 18px 48px rgba(0,0,0,.32);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    .app{min-height:100dvh;background:
+      radial-gradient(circle at 80% -10%,rgba(47,124,255,.16),transparent 28rem),
+      radial-gradient(circle at -10% 20%,rgba(80,80,255,.10),transparent 25rem),var(--bg)}
+    .topbar{height:68px;padding:0 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:0;z-index:30;background:rgba(7,10,15,.82);backdrop-filter:blur(18px)}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.03em;white-space:nowrap}
+    .brand-badge{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(135deg,#245fff,#6aa7ff);box-shadow:0 8px 22px rgba(47,124,255,.35)}
+    .spacer{flex:1}
+    .btn{border:1px solid rgba(255,255,255,.08);background:#111824;color:var(--text);padding:10px 14px;border-radius:14px;font-weight:750;transition:.2s;display:inline-flex;align-items:center;gap:8px;justify-content:center}
+    .btn:hover{transform:translateY(-1px);border-color:rgba(255,255,255,.16)}
+    .btn.primary{background:linear-gradient(135deg,#2369ff,#398eff);border-color:#3a83ff;box-shadow:0 9px 28px rgba(47,124,255,.28)}
+    .btn.ghost{background:transparent}
+    .btn.danger{color:#ff8390}
+    .iconbtn{width:42px;height:42px;padding:0;border-radius:14px}
+    .layout{max-width:1480px;margin:0 auto;padding:16px;display:grid;grid-template-columns:minmax(340px,460px) minmax(0,1fr);gap:16px}
+    .panel{background:linear-gradient(180deg,rgba(17,25,37,.94),rgba(10,15,23,.96));border:1px solid rgba(255,255,255,.07);border-radius:26px;box-shadow:var(--shadow);overflow:hidden}
+    .editor{min-height:calc(100dvh - 100px)}
+    .editor-head{padding:20px 20px 10px}
+    .eyebrow{font-size:12px;color:var(--accent2);font-weight:800;text-transform:uppercase;letter-spacing:.14em}
+    h1{margin:5px 0 4px;font-size:27px;line-height:1.06;letter-spacing:-.04em}
+    .sub{color:var(--muted);font-size:13px;line-height:1.5}
+    .toolbar{padding:12px 20px 6px;display:flex;gap:8px;flex-wrap:wrap}
+    .toolbar .btn{padding:8px 10px;font-size:12px}
+    .route-list{padding:10px 14px 4px}
+    .place{border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.035);border-radius:18px;padding:12px;display:grid;grid-template-columns:32px 1fr auto;gap:10px;align-items:center}
+    .place.dragging{opacity:.4}
+    .drag{color:#68758a;font-size:19px;cursor:grab;text-align:center;user-select:none}
+    .place-title{font-weight:800;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .place-meta{font-size:12px;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .place-actions{display:flex;gap:5px}
+    .mini{border:0;background:#151f2e;color:#b9c5d6;border-radius:10px;width:32px;height:32px}
+    .mini:hover{background:#1d2a3d;color:white}
+    .segment{margin:6px 0 6px 16px;padding-left:24px;position:relative;display:flex;align-items:center;gap:8px;min-height:38px}
+    .segment:before{content:"";position:absolute;left:0;top:-8px;bottom:-8px;width:2px;background:linear-gradient(var(--accent),rgba(47,124,255,.18))}
+    .seg-select{background:#0d141e;border:1px solid rgba(255,255,255,.08);color:#dce7f7;border-radius:11px;padding:7px 9px;min-width:142px}
+    .seg-distance{font-size:12px;color:#8fa0b6;margin-left:auto}
+    .total{margin:8px 20px 12px;padding:13px 14px;background:#0b111a;border:1px solid rgba(255,255,255,.06);border-radius:16px;display:flex;align-items:center;justify-content:space-between}
+    .total strong{font-size:18px}
+    .add-box{padding:0 20px 18px;position:relative}
+    .searchline{display:flex;gap:8px}
+    .searchline input{width:100%;background:#0a1018;border:1px solid #253045;color:white;border-radius:15px;padding:13px 14px;outline:none}
+    .searchline input:focus{border-color:#3a83ff;box-shadow:0 0 0 3px rgba(47,124,255,.14)}
+    .suggestions{position:absolute;left:20px;right:20px;top:52px;z-index:40;background:#101824;border:1px solid #263249;border-radius:16px;overflow:hidden;box-shadow:0 24px 50px rgba(0,0,0,.45);display:none}
+    .suggestion{padding:12px 13px;display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid rgba(255,255,255,.05);cursor:pointer}
+    .suggestion:last-child{border-bottom:0}.suggestion:hover{background:#182235}
+    .suggestion small{display:block;color:#8694a8;margin-top:3px}
+    .settings{border-top:1px solid rgba(255,255,255,.06);padding:16px 20px 22px}
+    .settings summary{font-weight:800;cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between}
+    .settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+    .field{display:flex;flex-direction:column;gap:6px}
+    .field label{font-size:11px;color:#8e9db1;font-weight:750}
+    .field input,.field select{width:100%;background:#0b121c;border:1px solid #253045;color:white;border-radius:12px;padding:9px 10px}
+    .checks{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .check{display:flex;align-items:center;gap:8px;font-size:12px;color:#c8d2df}
+    .map-panel{position:sticky;top:84px;height:calc(100dvh - 100px);min-height:620px;display:grid;place-items:center;padding:16px;background:
+      radial-gradient(circle at center,rgba(47,124,255,.09),transparent 50%),#090e15}
+    .phone{height:100%;max-height:calc(100dvh - 132px);aspect-ratio:9/16;width:auto;max-width:100%;border-radius:34px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,.10);box-shadow:0 35px 90px rgba(0,0,0,.48);background:#05080d}
+    #map{position:absolute;inset:0}
+    .maplibregl-ctrl-bottom-left,.maplibregl-ctrl-bottom-right{opacity:.6}
+    .transport-marker{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:rgba(8,13,20,.78);border:2px solid rgba(255,255,255,.86);box-shadow:0 8px 24px rgba(0,0,0,.45),0 0 0 6px rgba(47,124,255,.13);font-size:24px;transform-origin:center}
+    .arrival{position:absolute;left:18px;right:18px;top:22px;z-index:12;padding:14px 16px;border-radius:18px;background:linear-gradient(180deg,rgba(5,8,13,.78),rgba(5,8,13,.48));border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(14px);opacity:0;transform:translateY(-8px);transition:.35s;pointer-events:none}
+    .arrival.show{opacity:1;transform:translateY(0)}
+    .arrival .big{font-size:24px;font-weight:900;letter-spacing:-.04em}
+    .arrival .small{margin-top:3px;color:#d8e1ec;font-size:13px}
+    .status{position:absolute;left:14px;right:14px;bottom:18px;z-index:12;display:flex;align-items:center;gap:9px;background:rgba(5,8,13,.65);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(12px);border-radius:14px;padding:10px 12px;font-size:11px;color:#d7e1ef}
+    .progress{height:4px;flex:1;background:#293241;border-radius:99px;overflow:hidden}.progress>span{display:block;height:100%;width:0;background:#4b92ff;border-radius:99px}
+    .empty{padding:18px;text-align:center;border:1px dashed #2a3649;border-radius:18px;color:#8998aa;line-height:1.55}
+    .modalback{position:fixed;inset:0;background:rgba(0,0,0,.68);display:none;place-items:center;z-index:100;padding:18px}
+    .modal{width:min(560px,100%);background:#0e151f;border:1px solid #263247;border-radius:24px;padding:18px;box-shadow:0 30px 90px rgba(0,0,0,.55)}
+    .modal h2{margin:0 0 6px}.modal p{color:#8f9db0;font-size:13px;margin:0 0 13px}
+    .modal textarea{width:100%;height:150px;resize:vertical;background:#090f17;color:white;border:1px solid #29364a;border-radius:16px;padding:13px;outline:none}
+    .modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+    .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:#121b28;border:1px solid #2c3a50;color:white;border-radius:14px;padding:11px 14px;z-index:120;opacity:0;pointer-events:none;transition:.25s;box-shadow:0 18px 50px rgba(0,0,0,.35);font-size:13px}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:900px){
+      .topbar{height:auto;min-height:64px;flex-wrap:wrap;padding:10px 12px}.brand{font-size:14px}.btn span.hide-sm{display:none}
+      .layout{display:flex;flex-direction:column;padding:10px}.editor{min-height:0}.map-panel{position:relative;top:auto;height:auto;min-height:0;padding:10px}
+      .phone{width:100%;height:auto;max-height:none;aspect-ratio:9/16;border-radius:27px}
+    }
+    @media(max-width:520px){
+      .settings-grid{grid-template-columns:1fr}.checks{grid-column:auto;grid-template-columns:1fr 1fr}
+      .place{grid-template-columns:24px 1fr auto}.seg-select{min-width:132px}.editor-head{padding-left:16px;padding-right:16px}.toolbar,.settings,.add-box{padding-left:16px;padding-right:16px}
+      .suggestions{left:16px;right:16px}
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><div class="brand-badge">✦</div><span>Journey Studio</span></div>
+    <div class="spacer"></div>
+    <button class="btn ghost" id="settingsBtn">⚙️ <span class="hide-sm">Settings</span></button>
+    <button class="btn" id="previewBtn">▶ <span class="hide-sm">Preview</span></button>
+    <button class="btn primary" id="exportBtn">⇩ <span class="hide-sm">Export</span></button>
+  </header>
+
+  <main class="layout">
+    <section class="panel editor">
+      <div class="editor-head">
+        <div class="eyebrow">Travel video editor</div>
+        <h1>Build your journey</h1>
+        <div class="sub">Add places in order, choose transport for every leg, then preview a cinematic route across the Earth.</div>
+      </div>
+
+      <div class="toolbar">
+        <button class="btn" id="importBtn">↳ Import text</button>
+        <button class="btn" id="demoBtn">✦ Load demo</button>
+        <button class="btn danger" id="clearBtn">Clear</button>
+      </div>
+
+      <div id="routeList" class="route-list"></div>
+
+      <div class="total">
+        <span class="sub">Total distance</span>
+        <strong id="totalDistance">0 km</strong>
+      </div>
+
+      <div class="add-box">
+        <div class="searchline">
+          <input id="placeSearch" autocomplete="off" placeholder="+ Add place — city, airport, landmark…" />
+        </div>
+        <div id="suggestions" class="suggestions"></div>
+      </div>
+
+      <details class="settings" id="settingsPanel">
+        <summary>Animation settings <span>⌄</span></summary>
+        <div class="settings-grid">
+          <div class="field"><label>Style</label>
+            <select id="preset">
+              <option value="cinematic">Cinematic</option>
+              <option value="satellite">Satellite</option>
+              <option value="minimal">Minimal</option>
+              <option value="dark">Dark Earth</option>
+              <option value="bright">Bright Travel</option>
+            </select>
+          </div>
+          <div class="field"><label>Duration</label><select id="duration"><option>15</option><option selected>25</option><option>40</option><option>60</option></select></div>
+          <div class="field"><label>Camera pitch</label><input id="pitch" type="range" min="0" max="70" value="55" /></div>
+          <div class="field"><label>Route width</label><input id="lineWidth" type="range" min="2" max="10" value="5" /></div>
+          <div class="field"><label>Route color</label><input id="lineColor" type="color" value="#2f7cff" /></div>
+          <div class="field"><label>Transport size</label><input id="markerSize" type="range" min="32" max="70" value="46" /></div>
+          <div class="checks">
+            <label class="check"><input id="showFlags" type="checkbox" checked /> Flags</label>
+            <label class="check"><input id="showCountry" type="checkbox" checked /> Countries</label>
+            <label class="check"><input id="showDistance" type="checkbox" checked /> Distance</label>
+            <label class="check"><input id="showNames" type="checkbox" checked /> Place names</label>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel map-panel">
+      <div class="phone" id="phone">
+        <div id="map"></div>
+        <div class="arrival" id="arrival">
+          <div class="big" id="arrivalTitle">Journey Studio</div>
+          <div class="small" id="arrivalSub">Add your first place</div>
+        </div>
+        <div class="status">
+          <span id="statusText">Ready</span>
+          <div class="progress"><span id="progressBar"></span></div>
+          <span id="statusKm">0 km</span>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="modalback" id="importModal">
+  <div class="modal">
+    <h2>Import places</h2>
+    <p>Paste cities separated by arrows, commas or new lines. Example: Kemerovo → Novosibirsk → Tashkent → Kuala Lumpur → Bali → Manila → Beijing</p>
+    <textarea id="importText" placeholder="Kemerovo → Novosibirsk → Tashkent → Kuala Lumpur → Bali"></textarea>
+    <div class="modal-actions"><button class="btn" id="cancelImport">Cancel</button><button class="btn primary" id="doImport">Import route</button></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+  const MODES = {
+    plane:{emoji:'✈️',label:'Plane',kind:'air',color:'#61a5ff'},
+    car:{emoji:'🚗',label:'Car',kind:'road',color:'#2f7cff'},
+    motorcycle:{emoji:'🏍️',label:'Motorcycle',kind:'road',color:'#9a7cff'},
+    bicycle:{emoji:'🚲',label:'Bicycle',kind:'road',color:'#47d7a0'},
+    train:{emoji:'🚆',label:'Train',kind:'curve',color:'#ffb44b'},
+    bus:{emoji:'🚌',label:'Bus',kind:'road',color:'#f082ff'},
+    ship:{emoji:'🚢',label:'Ship',kind:'curve',color:'#34d6e7'},
+    walk:{emoji:'🚶',label:'Walk',kind:'road',color:'#91d35e'}
+  };
+
+  const $ = s => document.querySelector(s);
+  const state = {
+    places: [],
+    segments: [],
+    routes: [],
+    running: false,
+    recording: false,
+    draggedIndex: null,
+    searchTimer: null,
+    mapReady: false
+  };
+
+  const map = new maplibregl.Map({
+    container:'map',
+    center:[104,16],
+    zoom:2.3,
+    pitch:35,
+    bearing:0,
+    maxPitch:75,
+    attributionControl:false,
+    preserveDrawingBuffer:true,
+    style:{
+      version:8,
+      sources:{
+        imagery:{
+          type:'raster',
+          tiles:['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
+          tileSize:256,
+          attribution:'Esri World Imagery'
+        },
+        labels:{
+          type:'raster',
+          tiles:['https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}'],
+          tileSize:256
+        },
+        terrain:{
+          type:'raster-dem',
+          tiles:['https://demotiles.maplibre.org/terrain-tiles/{z}/{x}/{y}.png'],
+          tileSize:256,
+          maxzoom:12
+        }
+      },
+      layers:[
+        {id:'imagery',type:'raster',source:'imagery'},
+        {id:'labels',type:'raster',source:'labels',paint:{'raster-opacity':.86}}
+      ],
+      terrain:{source:'terrain',exaggeration:1.15},
+      sky:{'sky-color':'#07101e','horizon-color':'#1b3151','fog-color':'#0a1018','sky-horizon-blend':.55,'horizon-fog-blend':.8,'fog-ground-blend':.65}
+    }
+  });
+  map.addControl(new maplibregl.NavigationControl({visualizePitch:true}), 'bottom-right');
+
+  const markerEl = document.createElement('div');
+  markerEl.className = 'transport-marker';
+  markerEl.textContent = '✈️';
+  const mover = new maplibregl.Marker({element:markerEl,anchor:'center'}).setLngLat([104,16]);
+
+  map.on('load', () => {
+    map.addSource('route', {type:'geojson',data:emptyFC()});
+    map.addLayer({
+      id:'route-shadow',type:'line',source:'route',
+      layout:{'line-join':'round','line-cap':'round'},
+      paint:{'line-color':'#06101e','line-width':['+', ['get','width'], 5], 'line-opacity':.55}
+    });
+    map.addLayer({
+      id:'route-line',type:'line',source:'route',
+      layout:{'line-join':'round','line-cap':'round'},
+      paint:{'line-color':['get','color'],'line-width':['get','width'],'line-opacity':.95}
+    });
+    map.addSource('progress', {type:'geojson',data:{type:'Feature',properties:{},geometry:{type:'LineString',coordinates:[]}}});
+    map.addLayer({
+      id:'progress-line',type:'line',source:'progress',
+      layout:{'line-join':'round','line-cap':'round'},
+      paint:{'line-color':'#ffffff','line-width':7,'line-opacity':.92}
+    });
+    state.mapReady = true;
+    restore();
+    renderAll();
+  });
+
+  function emptyFC(){ return {type:'FeatureCollection',features:[]}; }
+  function flag(cc=''){ return cc ? String.fromCodePoint(...[...cc.toUpperCase()].map(c=>127397+c.charCodeAt())) : '🌍'; }
+  function toast(msg){
+    const t=$('#toast'); t.textContent=msg; t.classList.add('show');
+    clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'),2200);
+  }
+  function fmtKm(km){ return km < 10 ? km.toFixed(1)+' km' : Math.round(km).toLocaleString()+' km'; }
+  function hav(a,b){
+    const R=6371, toR=Math.PI/180, p1=a[1]*toR,p2=b[1]*toR,dp=(b[1]-a[1])*toR,dl=(b[0]-a[0])*toR;
+    const x=Math.sin(dp/2)**2+Math.cos(p1)*Math.cos(p2)*Math.sin(dl/2)**2;
+    return 2*R*Math.asin(Math.sqrt(x));
+  }
+  function lineDistance(coords){
+    let d=0; for(let i=1;i<coords.length;i++) d += hav(coords[i-1],coords[i]); return d;
+  }
+  function bearing(a,b){
+    const r=Math.PI/180, p1=a[1]*r,p2=b[1]*r,dl=(b[0]-a[0])*r;
+    const y=Math.sin(dl)*Math.cos(p2),x=Math.cos(p1)*Math.sin(p2)-Math.sin(p1)*Math.cos(p2)*Math.cos(dl);
+    return (Math.atan2(y,x)*180/Math.PI+360)%360;
+  }
+  function curve(a,b,steps=100){
+    const out=[];
+    let dLon=b[0]-a[0];
+    if(dLon>180) dLon-=360; if(dLon<-180) dLon+=360;
+    const km=hav(a,b), arc=Math.min(12,Math.max(1.5,km/900));
+    for(let i=0;i<=steps;i++){
+      const t=i/steps, s=Math.sin(Math.PI*t), lng=a[0]+dLon*t, lat=a[1]+(b[1]-a[1])*t + arc*s;
+      out.push([((lng+540)%360)-180, Math.max(-84,Math.min(84,lat))]);
+    }
+    return out;
+  }
+  function pathPoint(coords,p){
+    if(!coords.length) return [0,0];
+    if(coords.length===1) return coords[0];
+    const lens=[], total=lineDistance(coords); let acc=0;
+    for(let i=1;i<coords.length;i++){ const l=hav(coords[i-1],coords[i]); lens.push(l); }
+    const target=Math.max(0,Math.min(1,p))*total;
+    for(let i=0;i<lens.length;i++){
+      if(acc+lens[i]>=target){
+        const f=lens[i] ? (target-acc)/lens[i] : 0;
+        return [coords[i][0]+(coords[i+1][0]-coords[i][0])*f, coords[i][1]+(coords[i+1][1]-coords[i][1])*f];
+      }
+      acc+=lens[i];
+    }
+    return coords[coords.length-1];
+  }
+  function pathSlice(coords,p){
+    if(p<=0) return coords.length?[coords[0]]:[];
+    if(p>=1) return coords.slice();
+    const total=lineDistance(coords), target=total*p, out=[coords[0]]; let acc=0;
+    for(let i=1;i<coords.length;i++){
+      const l=hav(coords[i-1],coords[i]);
+      if(acc+l<target){ out.push(coords[i]); acc+=l; continue; }
+      const f=l ? (target-acc)/l : 0;
+      out.push([coords[i-1][0]+(coords[i][0]-coords[i-1][0])*f,coords[i-1][1]+(coords[i][1]-coords[i-1][1])*f]);
+      break;
+    }
+    return out;
+  }
+  function ease(t){ return t<.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2; }
+
+  function save(){
+    localStorage.setItem('journeyStudioV1',JSON.stringify({places:state.places,segments:state.segments,settings:getSettings()}));
+  }
+  function restore(){
+    try{
+      const s=JSON.parse(localStorage.getItem('journeyStudioV1')||'null');
+      if(!s) return;
+      state.places=Array.isArray(s.places)?s.places:[];
+      state.segments=Array.isArray(s.segments)?s.segments:[];
+      if(s.settings) setSettings(s.settings);
+    }catch(e){}
+  }
+  function getSettings(){
+    return {
+      preset:$('#preset').value,duration:+$('#duration').value,pitch:+$('#pitch').value,lineWidth:+$('#lineWidth').value,
+      lineColor:$('#lineColor').value,markerSize:+$('#markerSize').value,showFlags:$('#showFlags').checked,showCountry:$('#showCountry').checked,
+      showDistance:$('#showDistance').checked,showNames:$('#showNames').checked
+    };
+  }
+  function setSettings(s){
+    Object.entries(s).forEach(([k,v])=>{
+      const el=$('#'+k); if(!el) return;
+      if(el.type==='checkbox') el.checked=!!v; else el.value=v;
+    });
+  }
+
+  function normalizeSegments(){
+    const need=Math.max(0,state.places.length-1);
+    while(state.segments.length<need) state.segments.push({mode:'plane',distance:0});
+    if(state.segments.length>need) state.segments.length=need;
+  }
+
+  function renderList(){
+    normalizeSegments();
+    const root=$('#routeList'); root.innerHTML='';
+    if(!state.places.length){
+      root.innerHTML='<div class="empty">Your route is empty.<br>Add a place below or load the demo journey.</div>';
+    } else {
+      state.places.forEach((p,i)=>{
+        const el=document.createElement('div');
+        el.className='place'; el.draggable=true; el.dataset.index=i;
+        el.innerHTML=`
+          <div class="drag" title="Drag to reorder">⋮⋮</div>
+          <div><div class="place-title">${flag(p.countryCode)} ${escapeHtml(p.name)}</div>
+          <div class="place-meta">${escapeHtml(p.country||'Unknown country')} · ${p.lat.toFixed(4)}, ${p.lng.toFixed(4)}</div></div>
+          <div class="place-actions"><button class="mini delete" title="Delete">×</button></div>`;
+        el.addEventListener('dragstart',()=>{state.draggedIndex=i;el.classList.add('dragging')});
+        el.addEventListener('dragend',()=>el.classList.remove('dragging'));
+        el.addEventListener('dragover',e=>e.preventDefault());
+        el.addEventListener('drop',async e=>{
+          e.preventDefault(); const from=state.draggedIndex,to=i; if(from===null||from===to)return;
+          const [x]=state.places.splice(from,1); state.places.splice(to,0,x); state.routes=[]; save(); renderList(); await buildRoutes(); fitRoute();
+        });
+        el.querySelector('.delete').onclick=async()=>{
+          state.places.splice(i,1); state.routes=[]; normalizeSegments(); save(); renderList(); await buildRoutes(); fitRoute();
+        };
+        root.appendChild(el);
+
+        if(i<state.places.length-1){
+          const seg=state.segments[i], s=document.createElement('div'); s.className='segment';
+          const opts=Object.entries(MODES).map(([k,m])=>`<option value="${k}" ${seg.mode===k?'selected':''}>${m.emoji} ${m.label}</option>`).join('');
+          s.innerHTML=`<select class="seg-select">${opts}</select><span class="seg-distance">${seg.distance?fmtKm(seg.distance):'…'}</span>`;
+          s.querySelector('select').onchange=async e=>{seg.mode=e.target.value;state.routes[i]=null;save();await buildRoutes();renderList();};
+          root.appendChild(s);
+        }
+      });
+    }
+    $('#totalDistance').textContent=fmtKm(state.segments.reduce((a,s)=>a+(s.distance||0),0));
+  }
+
+  function routeFeatureCollection(){
+    const settings=getSettings();
+    return {
+      type:'FeatureCollection',
+      features:state.routes.map((r,i)=>r&&r.coords?.length>1?{
+        type:'Feature',
+        properties:{color:settings.lineColor || MODES[state.segments[i].mode].color,width:settings.lineWidth},
+        geometry:{type:'LineString',coordinates:r.coords}
+      }:null).filter(Boolean)
+    };
+  }
+  function drawRoutes(){
+    if(!state.mapReady)return;
+    map.getSource('route').setData(routeFeatureCollection());
+    map.setPaintProperty('progress-line','line-width',Math.max(3,+$('#lineWidth').value+2));
+  }
+
+  async function fetchRoute(a,b,mode){
+    const A=[a.lng,a.lat],B=[b.lng,b.lat],m=MODES[mode];
+    if(m.kind==='air' || m.kind==='curve') {
+      const coords=curve(A,B,m.kind==='air'?140:100);
+      return {coords,distance:lineDistance(coords),approx:m.kind!=='air'};
+    }
+    try{
+      const url=`https://router.project-osrm.org/route/v1/driving/${A[0]},${A[1]};${B[0]},${B[1]}?overview=full&geometries=geojson&steps=false`;
+      const res=await fetch(url); if(!res.ok) throw new Error('route');
+      const data=await res.json(); const coords=data.routes?.[0]?.geometry?.coordinates;
+      if(!coords?.length) throw new Error('route');
+      return {coords,distance:(data.routes[0].distance||0)/1000,approx:mode!=='car'&&mode!=='motorcycle'&&mode!=='bus'};
+    }catch(e){
+      const coords=curve(A,B,70); return {coords,distance:lineDistance(coords),approx:true};
+    }
+  }
+
+  async function buildRoutes(){
+    normalizeSegments();
+    if(state.places.length<2){ state.routes=[]; drawRoutes(); renderList(); save(); return; }
+    $('#statusText').textContent='Building route…';
+    for(let i=0;i<state.places.length-1;i++){
+      if(!state.routes[i] || state.routes[i].mode!==state.segments[i].mode){
+        const r=await fetchRoute(state.places[i],state.places[i+1],state.segments[i].mode);
+        r.mode=state.segments[i].mode; state.routes[i]=r; state.segments[i].distance=r.distance;
+      }
+    }
+    state.routes.length=state.places.length-1;
+    drawRoutes(); renderList(); save(); $('#statusText').textContent='Ready';
+  }
+
+  function fitRoute(){
+    if(!state.mapReady||!state.places.length)return;
+    if(state.places.length===1){map.easeTo({center:[state.places[0].lng,state.places[0].lat],zoom:7,duration:1000});return;}
+    let minX=180,maxX=-180,minY=90,maxY=-90;
+    state.places.forEach(p=>{minX=Math.min(minX,p.lng);maxX=Math.max(maxX,p.lng);minY=Math.min(minY,p.lat);maxY=Math.max(maxY,p.lat)});
+    if(maxX-minX>180){ minX=-180; maxX=180; }
+    map.fitBounds([[minX,minY],[maxX,maxY]],{padding:42,duration:1100,pitch:35});
+  }
+
+  async function geocode(q,limit=6){
+    const url='https://photon.komoot.io/api/?limit='+limit+'&lang=en&q='+encodeURIComponent(q);
+    const r=await fetch(url); if(!r.ok)throw new Error('geocoder'); const d=await r.json();
+    return (d.features||[]).map(f=>{
+      const p=f.properties||{},c=f.geometry?.coordinates||[0,0];
+      return {
+        name:p.name||p.city||p.locality||p.state||q,
+        country:p.country||'',
+        countryCode:(p.countrycode||'').toUpperCase(),
+        state:p.state||'',
+        type:p.osm_value||p.type||'place',
+        lng:+c[0],lat:+c[1]
+      };
+    });
+  }
+  function showSuggestions(items){
+    const box=$('#suggestions'); box.innerHTML='';
+    if(!items.length){box.style.display='none';return;}
+    items.forEach(p=>{
+      const el=document.createElement('div');el.className='suggestion';
+      el.innerHTML=`<span style="font-size:22px">${flag(p.countryCode)}</span><div><strong>${escapeHtml(p.name)}</strong><small>${escapeHtml([p.state,p.country].filter(Boolean).join(', '))}</small></div>`;
+      el.onclick=async()=>{box.style.display='none';$('#placeSearch').value='';state.places.push(p);state.routes=[];normalizeSegments();save();renderList();await buildRoutes();fitRoute();};
+      box.appendChild(el);
+    });
+    box.style.display='block';
+  }
+  function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+
+  $('#placeSearch').addEventListener('input',e=>{
+    const q=e.target.value.trim(); clearTimeout(state.searchTimer);
+    if(q.length<2){showSuggestions([]);return;}
+    state.searchTimer=setTimeout(async()=>{try{showSuggestions(await geocode(q));}catch(e){toast('Geocoding failed — try again')}} ,350);
+  });
+  document.addEventListener('click',e=>{if(!e.target.closest('.add-box'))$('#suggestions').style.display='none'});
+
+  function arrival(place,extra=''){
+    const s=getSettings();
+    $('#arrivalTitle').textContent=(s.showFlags?flag(place.countryCode)+' ':'')+(s.showNames?place.name:'');
+    $('#arrivalSub').textContent=(s.showCountry?place.country:'')+(extra?(s.showCountry?' · ':'')+extra:'');
+    $('#arrival').classList.add('show'); clearTimeout(arrival._t); arrival._t=setTimeout(()=>$('#arrival').classList.remove('show'),1500);
+  }
+
+  function segmentZoom(km){
+    if(km>5000)return 2.7;if(km>2500)return 3.3;if(km>1200)return 4;if(km>500)return 5;if(km>150)return 6.1;if(km>50)return 7.2;return 9;
+  }
+
+  async function preview({record=false}={}){
+    if(state.running)return;
+    if(state.places.length<2){toast('Add at least two places');return;}
+    await buildRoutes();
+    state.running=true;
+    $('#previewBtn').disabled=true; $('#exportBtn').disabled=true;
+    const settings=getSettings(),totalKm=state.segments.reduce((a,s)=>a+(s.distance||0),0)||1,totalMs=settings.duration*1000;
+    let media=null,chunks=[];
+    try{
+      if(record){
+        const canvas=map.getCanvas(),stream=canvas.captureStream(30);
+        const types=['video/mp4','video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm'];
+        const type=types.find(t=>window.MediaRecorder&&MediaRecorder.isTypeSupported(t))||'';
+        media=new MediaRecorder(stream,type?{mimeType:type,videoBitsPerSecond:10000000}:undefined);
+        media.ondataavailable=e=>{if(e.data?.size)chunks.push(e.data)};
+        media.start(250);
+        state.recording=true; $('#statusText').textContent='Recording…';
+      }
+
+      map.getSource('progress').setData({type:'Feature',properties:{},geometry:{type:'LineString',coordinates:[]}});
+      mover.addTo(map);
+      markerEl.style.width=settings.markerSize+'px';markerEl.style.height=settings.markerSize+'px';
+      arrival(state.places[0]);
+
+      let completedCoords=[];
+      let travelled=0;
+      for(let i=0;i<state.routes.length;i++){
+        const r=state.routes[i], seg=state.segments[i], coords=r.coords, km=seg.distance||lineDistance(coords);
+        markerEl.textContent=MODES[seg.mode].emoji;
+        const segMs=Math.max(1800,totalMs*(km/totalKm));
+        const start=performance.now();
+        const zoom=segmentZoom(km);
+        const startCenter=[state.places[i].lng,state.places[i].lat];
+        map.easeTo({center:startCenter,zoom:Math.min(zoom+1,10),pitch:settings.pitch,duration:650});
+        await sleep(680);
+
+        await new Promise(resolve=>{
+          const step=now=>{
+            if(!state.running){resolve();return;}
+            const raw=Math.min(1,(now-start)/segMs),t=ease(raw),pos=pathPoint(coords,t),ahead=pathPoint(coords,Math.min(1,t+.012));
+            mover.setLngLat(pos);
+            const b=bearing(pos,ahead), camZoom=zoom+(raw>.82?Math.min(1.2,(raw-.82)*5):0);
+            map.jumpTo({center:pos,bearing:b,pitch:settings.pitch,zoom:camZoom});
+            const partial=completedCoords.concat(pathSlice(coords,t));
+            map.getSource('progress').setData({type:'Feature',properties:{},geometry:{type:'LineString',coordinates:partial}});
+            $('#progressBar').style.width=((travelled+km*raw)/totalKm*100).toFixed(1)+'%';
+            $('#statusKm').textContent=settings.showDistance?fmtKm(travelled+km*raw):'';
+            $('#statusText').textContent=MODES[seg.mode].emoji+' '+MODES[seg.mode].label;
+            if(raw<1)requestAnimationFrame(step);else resolve();
+          };
+          requestAnimationFrame(step);
+        });
+        completedCoords=completedCoords.concat(coords);
+        travelled+=km;
+        arrival(state.places[i+1],settings.showDistance?fmtKm(km):'');
+        await sleep(500);
+      }
+      $('#progressBar').style.width='100%';
+      $('#statusText').textContent='Journey complete';
+      await sleep(650);
+
+      if(media){
+        media.stop();
+        await new Promise(r=>media.onstop=r);
+        const mime=media.mimeType||'video/webm',ext=mime.includes('mp4')?'mp4':'webm';
+        const blob=new Blob(chunks,{type:mime}),url=URL.createObjectURL(blob),a=document.createElement('a');
+        a.href=url;a.download='journey-studio.'+ext;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);
+        toast(ext==='mp4'?'MP4 exported':'Video exported as WebM on this browser');
+      }
+    }catch(e){
+      console.error(e); toast(record?'Recording is not supported here':'Animation failed');
+    }finally{
+      state.running=false;state.recording=false;$('#previewBtn').disabled=false;$('#exportBtn').disabled=false;
+    }
+  }
+  function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+
+  $('#previewBtn').onclick=()=>preview();
+  $('#exportBtn').onclick=()=>preview({record:true});
+  $('#settingsBtn').onclick=()=>{const d=$('#settingsPanel');d.open=true;d.scrollIntoView({behavior:'smooth',block:'center'})};
+
+  $('#importBtn').onclick=()=>{$('#importModal').style.display='grid';setTimeout(()=>$('#importText').focus(),60)};
+  $('#cancelImport').onclick=()=>$('#importModal').style.display='none';
+  $('#importModal').addEventListener('click',e=>{if(e.target.id==='importModal')$('#importModal').style.display='none'});
+  $('#doImport').onclick=async()=>{
+    const names=$('#importText').value.split(/→|\n|,|;/).map(s=>s.trim()).filter(Boolean);
+    if(!names.length)return;
+    $('#doImport').disabled=true; state.places=[]; state.routes=[]; state.segments=[]; renderList();
+    for(let i=0;i<names.length;i++){
+      $('#statusText').textContent='Importing '+(i+1)+'/'+names.length;
+      try{const r=await geocode(names[i],1);if(r[0])state.places.push(r[0]);}catch(e){}
+    }
+    normalizeSegments();save();renderList();await buildRoutes();fitRoute();$('#importModal').style.display='none';$('#doImport').disabled=false;toast('Imported '+state.places.length+' places');
+  };
+
+  $('#demoBtn').onclick=async()=>{
+    const demo=['Denpasar Bali','Kuala Lumpur','Bangkok','Hanoi','Manila'];
+    $('#statusText').textContent='Loading demo…'; state.places=[];state.routes=[];state.segments=[];renderList();
+    for(const name of demo){try{const r=await geocode(name,1);if(r[0])state.places.push(r[0]);}catch(e){}}
+    normalizeSegments();
+    if(state.segments[0])state.segments[0].mode='plane';
+    if(state.segments[1])state.segments[1].mode='plane';
+    if(state.segments[2])state.segments[2].mode='plane';
+    if(state.segments[3])state.segments[3].mode='plane';
+    save();renderList();await buildRoutes();fitRoute();toast('Demo journey loaded');
+  };
+  $('#clearBtn').onclick=()=>{state.places=[];state.segments=[];state.routes=[];save();renderAll();toast('Journey cleared')};
+
+  ['preset','duration','pitch','lineWidth','lineColor','markerSize','showFlags','showCountry','showDistance','showNames'].forEach(id=>{
+    $('#'+id).addEventListener('input',()=>{save();drawRoutes();applyPreset(false)});
+    $('#'+id).addEventListener('change',()=>{save();drawRoutes();applyPreset(id==='preset')});
+  });
+
+  function applyPreset(changed=true){
+    const p=$('#preset').value;
+    if(changed){
+      const values={
+        cinematic:{pitch:58,lineWidth:5,lineColor:'#2f7cff'},
+        satellite:{pitch:42,lineWidth:4,lineColor:'#ffffff'},
+        minimal:{pitch:25,lineWidth:3,lineColor:'#52a6ff'},
+        dark:{pitch:62,lineWidth:5,lineColor:'#8a72ff'},
+        bright:{pitch:50,lineWidth:6,lineColor:'#00d8ff'}
+      }[p];
+      if(values){$('#pitch').value=values.pitch;$('#lineWidth').value=values.lineWidth;$('#lineColor').value=values.lineColor;}
+      save();drawRoutes();
+    }
+    const labelLayer=map.getLayer('labels');
+    if(labelLayer)map.setPaintProperty('labels','raster-opacity',p==='minimal'?.3:p==='dark'?.55:.86);
+  }
+
+  function renderAll(){
+    normalizeSegments(); renderList(); buildRoutes().then(fitRoute); drawRoutes();
+  }
+
+  window.addEventListener('beforeunload',save);
+})();
+</script>
+</body>
+</html>
