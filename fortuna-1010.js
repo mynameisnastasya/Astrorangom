@@ -2,17 +2,146 @@
 (() => {
   "use strict";
   const gifts = [
-    {short:"−10%",title:"Скидка 10% на любую услугу",type:"discount",percent:10,description:"Выбирай любое направление: консультации, обучение, свечи или рунические ставы. Скидка действует без минимальной суммы заказа."},
-    {short:"Ритуал",title:"Ритуал намерения 10.10",type:"practice",description:"Твоя маленькая практика для нового этапа.",instruction:"Выдели 10 спокойных минут. На бумаге напиши две фразы: «Я перестаю поддерживать...» и «Я выбираю...». Под каждой укажи одно реальное действие, которое можешь выполнить в ближайшие сутки. Сохрани лист до конца месяца."},
-    {short:"−15%",title:"Скидка 15% на любую услугу",type:"discount",percent:15,description:"В твоём распоряжении все форматы Лизы: консультации, обучение, свечи и рунические ставы. Никакого минимального чека."},
-    {short:"Деньги",title:"Чек-лист «Деньги без хаоса»",type:"practice",description:"Пять простых вопросов, которые помогают навести порядок в денежном плане.",instruction:"1. Какая одна денежная цель важна в ближайшие 30 дней? 2. Какие три регулярные траты не приносят радости? 3. Где у тебя лежат забытые деньги или неиспользованные подписки? 4. Какую посильную сумму можешь отложить? 5. Какой один шаг к новому доходу сделаешь на этой неделе?"},
-    {short:"+1 вопрос",title:"Один вопрос в подарок",type:"question",description:"Дополнительный уточняющий вопрос по той же ситуации без доплаты при записи на любую консультацию Лизы.",instruction:"Выбери консультацию из каталога и напиши Лизе код выигрыша. Бонус применяется к одной новой консультации и действует 48 часов после вращения."},
-    {short:"Послание",title:"Твоё послание 10.10",type:"practice",description:"Тебе не нужно контролировать всё, чтобы двигаться вперёд.",instruction:"Один честный выбор бывает сильнее ста идеальных планов. Спроси себя сегодня: «Что я уже знаю, но до сих пор откладываю?» Запиши ответ и сделай один маленький шаг."},
-    {short:"−20%",title:"Скидка 20% на любую услугу",type:"discount",percent:20,description:"Тебе выпала скидка 20% на консультации, обучение, свечи и рунические ставы. На любую сумму."},
-    {short:"Любовь",title:"Практика «Мои границы»",type:"practice",description:"Небольшая письменная практика для ясности в отношениях.",instruction:"Ответь себе на три вопроса. Где я говорю «да», когда хочу сказать «нет»? О какой своей потребности я боюсь сообщить? Как выразить её спокойно и уважительно? Сформулируй одну фразу для реального разговора."},
-    {short:"Руна",title:"Символическая подсказка: Иса",type:"practice",description:"Иса в рунической традиции ассоциируется с паузой и сосредоточенностью.",instruction:"Запиши две колонки: «что зависит от меня» и «что не зависит». Выбери действие из первой колонки. Используй этот символ для саморефлексии, а не как предсказание будущего."},
-    {short:"−25%",title:"Скидка 25% на любую услугу",type:"discount",percent:25,description:"Твой особенный подарок: скидка 25% на любой формат Лизы — от одной свечи до комплексного обучения, без минимальной суммы."}
-  ];
+  {
+    "short": "−10%",
+    "title": "Скидка 10% на любую услугу",
+    "type": "discount",
+    "percent": 10,
+    "description": "Твоя скидка 10% на консультации, обучение, свечи и рунические ставы — без минимальной суммы."
+  },
+  {
+    "short": "Ритуал",
+    "title": "Ритуал намерения 10.10",
+    "type": "practice",
+    "description": "Практика, чтобы перевести намерение в действие.",
+    "instruction": "Выдели 10 спокойных минут. Запиши: «Я перестаю поддерживать…» и «Я выбираю…». После этого назначь один конкретный шаг на ближайшие сутки."
+  },
+  {
+    "short": "−15%",
+    "title": "Скидка 15% на любую услугу",
+    "type": "discount",
+    "percent": 15,
+    "description": "Твоя скидка 15% на обучение, консультации, свечи и рунические ставы, без минимальной суммы."
+  },
+  {
+    "short": "Деньги",
+    "title": "Чек-лист «Деньги без хаоса»",
+    "type": "practice",
+    "description": "Пять вопросов для денежной ясности.",
+    "instruction": "1. Какова твоя цель на месяц? 2. Какие три траты можно пересмотреть? 3. Какие подписки не используются? 4. Какую сумму можно отложить? 5. Какой один шаг к дополнительному доходу возможен уже на этой неделе?"
+  },
+  {
+    "short": "+1 вопрос",
+    "title": "+1 вопрос к консультации",
+    "type": "question",
+    "description": "Один дополнительный уточняющий вопрос по той же ситуации без доплаты при записи на любую консультацию.",
+    "instruction": "Выбери консультацию в каталоге или сразу напиши мне в Telegram. Пришли код и обратись за бонусом в течение 48 часов."
+  },
+  {
+    "short": "Послание",
+    "title": "Твоё послание 10.10",
+    "type": "practice",
+    "description": "Небольшое напоминание в день 10.10.",
+    "instruction": "Не обязательно знать весь маршрут, чтобы сделать один честный шаг. Спроси себя: «Что я уже знаю, но откладываю?» Запиши ответ и сделай небольшое действие сегодня."
+  },
+  {
+    "short": "−20%",
+    "title": "Скидка 20% на любую услугу",
+    "type": "discount",
+    "percent": 20,
+    "description": "Твоя скидка 20% на консультации, обучение, свечи и рунические ставы без ограничений по стоимости."
+  },
+  {
+    "short": "Любовь",
+    "title": "Практика «Мои границы»",
+    "type": "practice",
+    "description": "Небольшая практика для ясности в отношениях.",
+    "instruction": "Ответь на три вопроса: Где я соглашаюсь против желания? О чём боюсь попросить? Как могу сказать об этом спокойно и бережно? Запиши одну конкретную фразу."
+  },
+  {
+    "short": "Руна",
+    "title": "Руна для тебя — Иса",
+    "type": "rune",
+    "description": "Тебе досталась Иса — символическая подсказка о паузе и внутренней собранности.",
+    "instruction": "Иногда самое сильное движение — не торопиться. Раздели заботы на две группы: «зависит от меня» и «не зависит от меня». Начни с одного шага из первой. Это символ для размышления, а не предсказание."
+  },
+  {
+    "short": "−25%",
+    "title": "Скидка 25% на любую услугу",
+    "type": "discount",
+    "percent": 25,
+    "description": "Скидка 25% на любой формат Лизы: от одной свечи до большого обучения. Без минимальной суммы."
+  },
+  {
+    "short": "Проект",
+    "title": "Участие в проекте «Под кожей Луны»",
+    "type": "claim",
+    "description": "Твой приз — участие в проекте «Под кожей Луны».",
+    "instruction": "Напиши мне в Telegram с подарочным кодом в течение 48 часов после вращения. Я расскажу о ближайшем запуске и деталях участия. Место оформляется после моего подтверждения."
+  },
+  {
+    "short": "Пиздюли",
+    "title": "Волшебные пиздюли от Лизы",
+    "type": "pep",
+    "description": "Любовный пинок от Вселенной — без сахарной ваты.",
+    "instruction": "Так, красотка. Хватит, блин, ждать идеального знака! Ты уже знаешь, что пора менять. Перестань предавать свои желания ради чужого удобства. Выбери одно дело, от которого увиливаешь, и сделай первый шаг сегодня. Вот это и будет твоей магией."
+  },
+  {
+    "short": "Тень",
+    "title": "Консультация по тени и страхам",
+    "type": "claim",
+    "description": "Ты выиграла консультацию с Лизой о своих страхах, теневых реакциях и повторяющихся сценариях.",
+    "instruction": "Подарок нужно заявить в Telegram в течение 48 часов после вращения: пришли код и кратко опиши запрос. Формат и время консультации согласуем отдельно."
+  },
+  {
+    "short": "Карты",
+    "title": "Послание от карт",
+    "type": "cards",
+    "description": "Символическая карта-подсказка на то, что сейчас важно заметить.",
+    "instruction": "Открой своё послание ниже. Это образ для саморефлексии, а не точный прогноз."
+  },
+  {
+    "short": "Свеча",
+    "title": "Свеча от Лизы в подарок",
+    "type": "claim",
+    "description": "Ты выиграла одну свечу от Лизы (стоимость по прайсу — 666 ₽).",
+    "instruction": "Чтобы получить свечу, пришли подарочный код в Telegram в течение 48 часов. Способ передачи согласуем отдельно; доставка, если потребуется, оплачивается отдельно."
+  }
+];
+  const cardMessages = [
+  {
+    "name": "Звезда",
+    "text": "Ты можешь двигаться к большому, не обесценивая маленькое. Сегодня посмотри на то, что возвращает тебе надежду и силы. Выбери один шаг к этому."
+  },
+  {
+    "name": "Сила",
+    "text": "Мягкость — не слабость. Твоя сила сегодня в том, чтобы удержать свои границы спокойно, без борьбы за чужое одобрение."
+  },
+  {
+    "name": "Верховная Жрица",
+    "text": "Не всякая пауза означает тупик. Прислушайся к себе: что ты чувствуешь, когда перестаёшь спрашивать всех остальных?"
+  },
+  {
+    "name": "Маг",
+    "text": "У тебя уже есть хотя бы один инструмент для начала. Не жди идеальных обстоятельств — собери свои ресурсы и сделай первый шаг."
+  },
+  {
+    "name": "Колесо Фортуны",
+    "text": "Перемены идут своим чередом, но твой выбор всё ещё имеет значение. Не пытайся контролировать случай; выбирай, как на него ответить."
+  },
+  {
+    "name": "Умеренность",
+    "text": "Не обязательно всё решать одним рывком. Сложи два небольших действия в устойчивую привычку и дай себе время."
+  },
+  {
+    "name": "Императрица",
+    "text": "Позаботься о том, что хочешь вырастить: идее, теле, отношениях или деле. Внимание и регулярность — тоже действие."
+  },
+  {
+    "name": "Отшельник",
+    "text": "Чужой шум может заглушать собственный голос. Найди немного тишины и честно ответь себе, какой выбор давно назрел."
+  }
+];
   const priceList = Array.isArray(window.LIZA_CATALOG) ? window.LIZA_CATALOG : [];
   const categories = Array.isArray(window.LIZA_CATEGORIES) ? window.LIZA_CATEGORIES : [];
   const byId = id => document.getElementById(id);
@@ -33,7 +162,7 @@
   }
   function persist() { try { localStorage.setItem(storageKey, JSON.stringify(saved)); } catch (_) {} }
   function currentGift() { return saved ? gifts[saved.i] : null; }
-  function isLimited(gift) { return gift && (gift.type === "discount" || gift.type === "question"); }
+  function isLimited(gift) { return gift && (gift.type === "discount" || gift.type === "question" || gift.type === "claim"); }
   function isActive() { const gift = currentGift(); return !!gift && (!isLimited(gift) || Date.now() < saved.t + hours48); }
   function discountPercent() { const gift = currentGift(); return gift && gift.type === "discount" && isActive() ? gift.percent : 0; }
   function priceWithDiscount(n) { return Math.round(n * (100 - discountPercent()) / 100); }
@@ -52,7 +181,7 @@
       if (i%2===0) { gradient.addColorStop(0,"#341722"); gradient.addColorStop(1,i===9?"#8c4055":"#742c46"); }
       else { gradient.addColorStop(0,"#1d1119");gradient.addColorStop(1,"#3f1b2a"); }
       ctx.beginPath();ctx.moveTo(C,C);ctx.arc(C,C,R,from,to);ctx.closePath();ctx.fillStyle=gradient;ctx.fill();ctx.strokeStyle="rgba(241,198,151,.64)";ctx.lineWidth=3;ctx.stroke();
-      ctx.save();ctx.translate(C+Math.cos(mid)*335,C+Math.sin(mid)*335);ctx.rotate(mid+Math.PI/2);ctx.textBaseline="middle";ctx.textAlign="center";ctx.fillStyle="#fbe6ca";ctx.shadowColor="rgba(0,0,0,.65)";ctx.shadowBlur=10;ctx.font="800 31px Manrope,Arial,sans-serif";ctx.fillText(gifts[i].short,0,0,185);ctx.restore();
+      ctx.save();ctx.translate(C+Math.cos(mid)*346,C+Math.sin(mid)*346);ctx.rotate(mid+Math.PI/2);ctx.textBaseline="middle";ctx.textAlign="center";ctx.fillStyle="#fbe6ca";ctx.shadowColor="rgba(0,0,0,.65)";ctx.shadowBlur=10;ctx.font="800 27px Manrope,Arial,sans-serif";ctx.fillText(gifts[i].short,0,0,144);ctx.restore();
       const stud = from;ctx.beginPath();ctx.arc(C+Math.cos(stud)*470,C+Math.sin(stud)*470,6,0,2*Math.PI);ctx.fillStyle="#f5d7b0";ctx.fill();
     }
     ctx.beginPath();ctx.arc(C,C,R-9,0,2*Math.PI);ctx.lineWidth=7;ctx.strokeStyle="rgba(247,208,160,.6)";ctx.stroke();
@@ -63,6 +192,7 @@
     do {crypto.getRandomValues(buffer);} while(buffer[0]>=limit);
     return buffer[0]%gifts.length;
   }
+  function unbiasedCard() { if(!window.crypto || !crypto.getRandomValues)return Math.floor(Math.random()*cardMessages.length);const n=new Uint32Array(1),m=4294967296,limit=m-m%cardMessages.length;do{crypto.getRandomValues(n)}while(n[0]>=limit);return n[0]%cardMessages.length; }
   function giftCode() {
     const bytes=new Uint8Array(5);
     if (window.crypto && crypto.getRandomValues) crypto.getRandomValues(bytes);
@@ -74,17 +204,24 @@
     const gift=currentGift(),active=isActive(),limited=isLimited(gift),result=byId("result");
     result.hidden=false;
     byId("gift-title").textContent=gift.title;
-    byId("gift-description").textContent=gift.description;
     byId("gift-code").textContent=saved.code;
-    byId("gift-kicker").textContent=gift.type==="discount"?"ТВОЙ ПЕРСОНАЛЬНЫЙ БОНУС":gift.type==="question"?"ОСОБЫЙ ПОДАРОК":"ПОДАРОК ОТ ЛИЗЫ";
-    const instructions=gift.type==="discount"?"Выбирай услугу ниже: система покажет стоимость с твоей скидкой. Чтобы забрать бонус, скопируй код и заявку и напиши Лизе в Telegram.":gift.instruction;
-    byId("gift-instructions").textContent=instructions;
-    byId("deadline").textContent=limited?(active?"Успей воспользоваться до "+deadlineMoscow():"Срок действия бонуса истёк ("+deadlineMoscow()+")."):"Подарок доступен прямо здесь. Сохрани текст или сделай скриншот.";
-    byId("result-note").textContent=limited?"Для получения бонуса отправь код Лизе. Подтверждение заказа — в Telegram.":"Этот подарок можно сохранить и использовать самостоятельно.";
-    byId("gift-catalog-link").textContent=gift.type==="practice"?"Посмотреть услуги ↓":"Выбрать услугу ↓";
-    spin.disabled=true;
-    spin.textContent="ПОДАРОК ПОЛУЧЕН ✦";
-    status.textContent=limited&&!active?"Срок использования бонуса закончился.":"Твой подарок сохранён в этом браузере.";
+    byId("gift-description").textContent=gift.description;
+    const claiming=gift.type==="claim";
+    const text=gift.type==="discount"?"Выбирай услугу ниже: цена со скидкой посчитается автоматически. Скопируй код и заявку, затем напиши Лизе в Telegram.":gift.instruction;
+    byId("gift-instructions").textContent=text||"";
+    if(gift.type==="cards"){
+      if(!Number.isInteger(saved.card)||saved.card<0||saved.card>=cardMessages.length){saved.card=unbiasedCard();persist();}
+      const card=cardMessages[saved.card];
+      byId("gift-description").textContent="Твоя символическая карта — «"+card.name+"». "+card.text;
+    }
+    byId("gift-kicker").textContent=gift.type==="discount"?"ПЕРСОНАЛЬНАЯ СКИДКА":claiming?"ОСОБЫЙ ПОДАРОК":gift.type==="question"?"БОНУС К КОНСУЛЬТАЦИИ":"ТВОЙ ПОДАРОК";
+    byId("deadline").textContent=limited?(active?"Заяви подарок до "+deadlineMoscow():"Срок обращения за подарком истёк ("+deadlineMoscow()+")."):"Этот подарок доступен сразу — сохрани его на память.";
+    byId("result-note").textContent=claiming?"Напиши Лизе и пришли код: она согласует получение лично. Приз не резервируется автоматически.":limited?"Чтобы получить бонус, отправь код Лизе в течение 48 часов.":"Сохрани это послание или сделай скриншот.";
+    const link=byId("gift-catalog-link");
+    if(claiming){link.href="https://t.me/liz_ty666";link.textContent="Забрать приз у Лизы ↗";link.target="_blank";link.rel="noopener noreferrer";}
+    else {link.href="#catalog";link.removeAttribute("target");link.removeAttribute("rel");link.textContent=gift.type==="discount"||gift.type==="question"?"Выбрать услугу ↓":"Посмотреть услуги ↓";}
+    spin.disabled=true;spin.textContent="ПОДАРОК ПОЛУЧЕН ✦";
+    status.textContent=limited&&!active?"Срок обращения за подарком истёк.":"Твой подарок сохранён в этом браузере.";
     if(scroll)result.scrollIntoView({behavior:reduced()?"auto":"smooth",block:"start"});
   }
   function reduced() { return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches); }
@@ -105,7 +242,8 @@
     if(discount){badge.textContent="−"+discount+"%";head.textContent="Твоя скидка активна на все услуги";detail.textContent="Пересчитали все цены. Бонус действует до "+deadlineMoscow()+".";}
     else if(gift && gift.type==="question" && active){badge.textContent="+1";head.textContent="Дополнительный вопрос в подарок";detail.textContent="При выборе консультации добавим твой бонус в заявку. Действует до "+deadlineMoscow()+".";}
     else if(gift && isLimited(gift) && !active){badge.textContent="✧";head.textContent="Срок бонуса закончился";detail.textContent="Стоимость показана по обычному прайсу. Ты по-прежнему можешь выбрать услугу.";}
-    else if(gift){badge.textContent="✦";head.textContent="Твой подарок уже получен";detail.textContent="Практика доступна выше, а ниже можно выбрать консультацию или обучение.";}
+    else if(gift && gift.type==="claim"){badge.textContent="✦";head.textContent="Тебе достался подарок от Лизы";detail.textContent="Выше есть код и кнопка, чтобы заявить приз через Telegram.";}
+    else if(gift){badge.textContent="✦";head.textContent="Твой подарок уже получен";detail.textContent="Послание или практика доступны выше, а ниже — каталог услуг.";}
     else {badge.textContent="✦";head.textContent="Открой свой подарок — выбери услугу";detail.textContent="Когда выпадет скидка, стоимость автоматически изменится прямо в каталоге.";}
   }
   function renderTabs(){
@@ -165,7 +303,7 @@
     const lines=["Здравствуйте, Лиза! Хочу записаться по акции «Колесо Фортуны 10.10».","", "Интересует: "+item[1],"Направление: "+item[2],"Цена по прайсу: "+formatted(item,item[3])];
     if(d)lines.push("Моя скидка: "+d+"%","Стоимость со скидкой: "+formatted(item,newP),"Подарочный код: "+saved.code,"Скидка действительна до "+deadlineMoscow());
     else if(eligible)lines.push("Мой бонус: один дополнительный уточняющий вопрос","Подарочный код: "+saved.code,"Бонус действителен до "+deadlineMoscow());
-    else if(bonus?.type==="practice")lines.push("Мне также выпал подарок: "+bonus.title);
+    else if(bonus && !isLimited(bonus))lines.push("Мне также выпал подарок: "+bonus.title);
     lines.push("","Подскажите, пожалуйста, как записаться?");
     return lines.join("\n");
   }
@@ -181,7 +319,7 @@
   async function copyGift(){
     if(!saved)return;
     const gift=currentGift();const note=isLimited(gift)?" Срок: "+deadlineMoscow():"";
-    const msg="Колесо Фортуны Лизы 10.10\nМой подарок: "+gift.title+"\nКод: "+saved.code+"\n"+(gift.instruction||gift.description)+"\n"+note;
+    const msg="Колесо Фортуны Лизы 10.10\nМой подарок: "+gift.title+"\nКод: "+saved.code+"\n"+(gift.type==="cards"?byId("gift-description").textContent+"\n":"")+(gift.instruction||gift.description)+"\n"+note;
     const copied=await copyText(msg);byId("copy-gift").textContent=copied?"Скопировано ✓":"Сделай скриншот приза";if(!copied){const el=byId("gift-code");const range=document.createRange();range.selectNodeContents(el);window.getSelection()?.removeAllRanges();window.getSelection()?.addRange(range);}
   }
   async function copyRequest(){
@@ -193,8 +331,8 @@
   function spinWheel(){
     if(spinning || saved)return;
     spinning=true;spin.disabled=true;spin.innerHTML="ФОРТУНА ВЫБИРАЕТ <span>✧</span>";status.textContent="Колесо вращается. Твой выигрыш уже определён.";
-    const i=unbiasedIndex();saved={i,code:giftCode(),t:Date.now()};persist();
-    const deg=360*8+(360-i*36);
+    const i=unbiasedIndex();saved={i,code:giftCode(),t:Date.now()};if(gifts[i].type==="cards")saved.card=unbiasedCard();persist();
+    const deg=360*8+(360-i*(360/gifts.length));
     let done=false;
     function finished(){if(done)return;done=true;spinning=false;renderPrize(true);renderBanner();renderServices();renderSelection();celebrate();}
     const onEnd=ev=>{if(ev.target===rotor && ev.propertyName==="transform")finished()};
@@ -204,7 +342,7 @@
   }
   function init(){
     wheel();readStored();
-    if(saved){rotor.style.transition="none";rotor.style.transform="rotate("+(360-saved.i*36)+"deg)";renderPrize();}
+    if(saved){rotor.style.transition="none";rotor.style.transform="rotate("+(360-saved.i*(360/gifts.length))+"deg)";renderPrize();}
     if(!priceList.length){byId("discount-text").textContent="Каталог временно недоступен. Напиши Лизе в Telegram.";byId("service-count").textContent="0";return}
     renderTabs();renderBanner();renderServices();renderSelection();
     spin.addEventListener("click",spinWheel);
