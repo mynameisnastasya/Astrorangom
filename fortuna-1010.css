@@ -22,3 +22,11 @@
 .gift-legend-items{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;padding:0 6px 10px}
 .gift-legend-items span{border:1px solid rgba(222,174,149,.24);border-radius:20px;padding:8px 11px;color:#d3b8b2;font-size:10px;line-height:1.4;background:rgba(71,30,48,.24)}
 @media(max-width:480px){.gift-legend{margin-top:11px}.gift-legend summary{font-size:10px;padding:12px 4px}.gift-legend-items span{font-size:9px;padding:7px 9px}}
+
+/* Узнаваемый бренд Liz_ty666 — главный акцент в левом верхнем углу */
+.wordmark{display:inline-flex;align-items:baseline;gap:0;white-space:nowrap;font-family:var(--sans);font-weight:800;font-size:clamp(20px,2.25vw,30px);line-height:1.1;letter-spacing:-.045em;text-transform:none}
+.wordmark .brand-name{color:var(--ivory)}
+.wordmark .brand-numbers{font:inherit;color:#e8bd92;letter-spacing:-.045em;text-shadow:0 0 22px rgba(205,122,91,.2)}
+.topbar .wordmark{flex-shrink:0}
+.footer-line .wordmark{font-size:clamp(19px,2vw,25px)}
+@media(max-width:480px){.topbar{gap:12px}.topbar .wordmark{font-size:clamp(19px,5.9vw,24px)}.topdate{font-size:8px;letter-spacing:.08em;gap:6px}.topdate strong{font-size:10px}}
