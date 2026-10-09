@@ -142,6 +142,40 @@
     "text": "Чужой шум может заглушать собственный голос. Найди немного тишины и честно ответь себе, какой выбор давно назрел."
   }
 ];
+  const runeMessages = [
+  {
+    "name": "Феху",
+    "text": "Фокус на ресурсах. Посмотри, что уже есть у тебя в распоряжении, и перестань недооценивать этот запас."
+  },
+  {
+    "name": "Уруз",
+    "text": "Фокус на силе. Сегодня не требуй от себя невозможного — выбери одно действие и вложи в него энергию."
+  },
+  {
+    "name": "Ансуз",
+    "text": "Фокус на словах. Точное, честное сообщение может сдвинуть ситуацию больше, чем бесконечные догадки."
+  },
+  {
+    "name": "Райдо",
+    "text": "Фокус на пути. Не нужно видеть весь маршрут. Важно понять, какой следующий шаг действительно твой."
+  },
+  {
+    "name": "Кеназ",
+    "text": "Фокус на ясности. Там, где раньше было много тумана, попробуй задать себе один прямой вопрос."
+  },
+  {
+    "name": "Гебо",
+    "text": "Фокус на взаимности. Посмотри, где ты отдаёшь больше, чем можешь, и где стоит восстановить равновесие."
+  },
+  {
+    "name": "Вуньо",
+    "text": "Фокус на радости. Не откладывай жизнь до идеального результата: выбери маленький повод почувствовать себя живой сегодня."
+  },
+  {
+    "name": "Иса",
+    "text": "Фокус на паузе. Иногда движение начинается с остановки. Отдели подвластное тебе от того, что контролировать невозможно."
+  }
+];
   const priceList = Array.isArray(window.LIZA_CATALOG) ? window.LIZA_CATALOG : [];
   const categories = Array.isArray(window.LIZA_CATEGORIES) ? window.LIZA_CATEGORIES : [];
   const byId = id => document.getElementById(id);
@@ -209,6 +243,7 @@
     const claiming=gift.type==="claim";
     const text=gift.type==="discount"?"Выбирай услугу ниже: цена со скидкой посчитается автоматически. Скопируй код и заявку, затем напиши Лизе в Telegram.":gift.instruction;
     byId("gift-instructions").textContent=text||"";
+    if(gift.type==="rune" && Number.isInteger(saved.rune) && saved.rune>=0 && saved.rune<runeMessages.length){const rune=runeMessages[saved.rune];byId("gift-title").textContent="Твоя руна — "+rune.name;byId("gift-description").textContent=rune.text+" Символическое послание для размышлений.";}
     if(gift.type==="cards"){
       if(!Number.isInteger(saved.card)||saved.card<0||saved.card>=cardMessages.length){saved.card=unbiasedCard();persist();}
       const card=cardMessages[saved.card];
@@ -319,7 +354,7 @@
   async function copyGift(){
     if(!saved)return;
     const gift=currentGift();const note=isLimited(gift)?" Срок: "+deadlineMoscow():"";
-    const msg="Колесо Фортуны Лизы 10.10\nМой подарок: "+gift.title+"\nКод: "+saved.code+"\n"+(gift.type==="cards"?byId("gift-description").textContent+"\n":"")+(gift.instruction||gift.description)+"\n"+note;
+    const msg="Колесо Фортуны Лизы 10.10\nМой подарок: "+byId("gift-title").textContent+"\nКод: "+saved.code+"\n"+(["cards","rune"].includes(gift.type)?byId("gift-description").textContent+"\n":"")+(gift.instruction||gift.description)+"\n"+note;
     const copied=await copyText(msg);byId("copy-gift").textContent=copied?"Скопировано ✓":"Сделай скриншот приза";if(!copied){const el=byId("gift-code");const range=document.createRange();range.selectNodeContents(el);window.getSelection()?.removeAllRanges();window.getSelection()?.addRange(range);}
   }
   async function copyRequest(){
@@ -331,7 +366,7 @@
   function spinWheel(){
     if(spinning || saved)return;
     spinning=true;spin.disabled=true;spin.innerHTML="ФОРТУНА ВЫБИРАЕТ <span>✧</span>";status.textContent="Колесо вращается. Твой выигрыш уже определён.";
-    const i=unbiasedIndex();saved={i,code:giftCode(),t:Date.now()};if(gifts[i].type==="cards")saved.card=unbiasedCard();persist();
+    const i=unbiasedIndex();saved={i,code:giftCode(),t:Date.now()};if(gifts[i].type==="cards")saved.card=unbiasedCard();if(gifts[i].type==="rune")saved.rune=unbiasedCard();persist();
     const deg=360*8+(360-i*(360/gifts.length));
     let done=false;
     function finished(){if(done)return;done=true;spinning=false;renderPrize(true);renderBanner();renderServices();renderSelection();celebrate();}
