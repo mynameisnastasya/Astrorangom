@@ -253,8 +253,13 @@
     byId("deadline").textContent=limited?(active?"Успей забрать до "+deadlineMoscow():"Срок действия подарка закончился ("+deadlineMoscow()+")."):"Подарок уже твой. Сохрани его, чтобы не потерять.";
     byId("result-note").textContent=claiming?"Подарок нужно подтвердить со мной лично — одного вращения недостаточно для брони.":limited?"Код и срок действия сохраняются на этой странице.":"Можешь сохранить текст или сделать скриншот.";
     const link=byId("gift-catalog-link");
-    if(claiming){link.href="https://t.me/liz_ty666";link.textContent="Забрать приз у Лизы ↗";link.target="_blank";link.rel="noopener noreferrer";}
-    else {link.href="#catalog";link.removeAttribute("target");link.removeAttribute("rel");link.textContent=gift.type==="discount"||gift.type==="question"?"Выбрать услугу ↓":"Посмотреть услуги ↓";}
+    link.href="#catalog";
+    link.removeAttribute("target");
+    link.removeAttribute("rel");
+    link.textContent=gift.type==="discount"||gift.type==="question"?"Выбрать услугу ↓":"Посмотреть услуги ↓";
+    const tgGift=byId("tg-gift");
+    tgGift.href=telegramHref(buildGiftMessage());
+    tgGift.textContent=claiming?"Забрать подарок в Telegram ↗":"Написать Лизе о выигрыше ↗";
     spin.disabled=true;spin.textContent="ТВОЙ ПОДАРОК УЖЕ ЗДЕСЬ ✦";
     status.textContent=limited&&!active?"Срок обращения за подарком истёк.":"Не потеряй: твой подарок ждёт ниже.";
     if(scroll)result.scrollIntoView({behavior:reduced()?"auto":"smooth",block:"start"});
@@ -329,17 +334,58 @@
     else if(eligible)benefit.textContent="✓ Дополнительный вопрос по этой же ситуации без доплаты.";
     else if(currentGift()?.type==="question"&&isActive()&&item[4]!=="consult")benefit.textContent="Бонус «+1 вопрос» доступен только для консультаций.";
     else benefit.textContent="Выбрана услуга. Осталось написать Лизе для записи.";
-    byId("manual-request").hidden=true;byId("selection-help").textContent="Нажми «Скопировать заявку», открой Telegram и отправь её мне. Детали записи согласуем лично.";
+    byId("tg-request").href=telegramHref(buildRequest());
+    byId("manual-request").hidden=true;
+    byId("selection-help").textContent="Нажми «Написать Лизе» — в Telegram откроется готовый текст с услугой, призом и кодом. Останется нажать «Отправить».";
     if(scroll)panel.scrollIntoView({behavior:reduced()?"auto":"smooth",block:"start"});
+  }
+  function telegramHref(message){
+    return "https://t.me/liz_ty666?text="+encodeURIComponent(message);
+  }
+  function giftTitle(){
+    if(!saved)return "";
+    return byId("gift-title").textContent || currentGift().title;
+  }
+  function buildGiftMessage(){
+    if(!saved)return "";
+    const gift=currentGift(),limited=isLimited(gift),active=isActive();
+    const lines=[
+      "Привет, Лиза! 🖤",
+      "Я покрутила колесо Фортуны 10.10 и выиграла: «"+giftTitle()+"» 🎁",
+      "Мой подарочный код: "+saved.code
+    ];
+    if(limited){
+      lines.push(active?"Срок обращения: до "+deadlineMoscow():"Срок действия подарка уже истёк ("+deadlineMoscow()+").");
+    }
+    if(gift.type==="rune"||gift.type==="cards"){
+      lines.push("Моё послание: "+byId("gift-description").textContent);
+    }
+    lines.push("");
+    if(gift.type==="discount")lines.push(active?"Хочу воспользоваться скидкой. Подскажи, пожалуйста, как это сделать?":"Хочу уточнить, какие предложения сейчас доступны.");
+    else if(gift.type==="question")lines.push(active?"Хочу использовать дополнительный вопрос к консультации. Как записаться?":"Хочу узнать о консультациях.");
+    else if(gift.type==="claim")lines.push(active?"Хочу забрать свой подарок. Подскажи, пожалуйста, что для этого нужно?":"Хочу уточнить возможность получения подарка.");
+    else lines.push("Спасибо за подарок! Хочу узнать о твоих услугах.");
+    return lines.join("\n");
   }
   function buildRequest(){
     const item=priceList.find(p=>p[0]===selectedId);if(!item)return "";
-    const d=discountPercent(),newP=priceWithDiscount(item[3]),bonus=currentGift(),eligible=questionEligible(item);
-    const lines=["Здравствуйте, Лиза! Хочу записаться по акции «Колесо Фортуны 10.10».","", "Интересует: "+item[1],"Направление: "+item[2],"Цена по прайсу: "+formatted(item,item[3])];
-    if(d)lines.push("Моя скидка: "+d+"%","Стоимость со скидкой: "+formatted(item,newP),"Подарочный код: "+saved.code,"Скидка действительна до "+deadlineMoscow());
-    else if(eligible)lines.push("Мой бонус: один дополнительный уточняющий вопрос","Подарочный код: "+saved.code,"Бонус действителен до "+deadlineMoscow());
-    else if(bonus && !isLimited(bonus))lines.push("Мне также выпал подарок: "+bonus.title);
-    lines.push("","Подскажи, пожалуйста, как забрать подарок и записаться?");
+    const gift=currentGift(),discount=discountPercent(),eligible=questionEligible(item);
+    const lines=[
+      "Привет, Лиза! 🖤",
+      "Хочу записаться через Колесо Фортуны 10.10.",
+      "",
+      "Выбрала: "+item[1],
+      "Направление: "+item[2],
+      "Цена по прайсу: "+formatted(item,item[3])
+    ];
+    if(gift){
+      lines.push("","Мой выигрыш: «"+giftTitle()+"» 🎁","Подарочный код: "+saved.code);
+      if(isLimited(gift))lines.push(isActive()?"Срок действия: до "+deadlineMoscow():"Срок действия выигрыша закончился ("+deadlineMoscow()+").");
+      if(gift.type==="cards"||gift.type==="rune")lines.push("Моё послание: "+byId("gift-description").textContent);
+    }
+    if(discount)lines.push("Моя скидка: "+discount+"%","Стоимость со скидкой: "+formatted(item,priceWithDiscount(item[3])));
+    if(eligible)lines.push("Бонус: +1 уточняющий вопрос по той же ситуации.");
+    lines.push("","Подскажи, пожалуйста, как оформить запись?");
     return lines.join("\n");
   }
   function textFallback(value){
@@ -353,14 +399,19 @@
   }
   async function copyGift(){
     if(!saved)return;
-    const gift=currentGift();const note=isLimited(gift)?" Срок: "+deadlineMoscow():"";
-    const msg="Колесо Фортуны Лизы 10.10\nМой подарок: "+byId("gift-title").textContent+"\nКод: "+saved.code+"\n"+(["cards","rune"].includes(gift.type)?byId("gift-description").textContent+"\n":"")+(gift.instruction||gift.description)+"\n"+note;
-    const copied=await copyText(msg);byId("copy-gift").textContent=copied?"Скопировано ✓":"Сделай скриншот приза";if(!copied){const el=byId("gift-code");const range=document.createRange();range.selectNodeContents(el);window.getSelection()?.removeAllRanges();window.getSelection()?.addRange(range);}
+    const copied=await copyText(buildGiftMessage());
+    byId("copy-gift").textContent=copied?"Сообщение скопировано ✓":"Скопируй код вручную";
+    if(!copied){
+      const el=byId("gift-code"),range=document.createRange();
+      range.selectNodeContents(el);
+      window.getSelection()?.removeAllRanges();
+      window.getSelection()?.addRange(range);
+    }
   }
   async function copyRequest(){
     const text=buildRequest();if(!text)return;
     const copied=await copyText(text);
-    if(copied){byId("selection-help").textContent="Готово! Заявка скопирована. Открой Telegram и вставь текст в наш чат.";byId("copy-request").textContent="Заявка скопирована ✓";byId("manual-request").hidden=true;}
+    if(copied){byId("selection-help").textContent="Готово! Заявка скопирована. Можешь вставить её в Telegram или открыть чат готовой кнопкой.";byId("copy-request").textContent="Заявка скопирована ✓";byId("manual-request").hidden=true;}
     else{const t=byId("manual-request");t.hidden=false;t.value=text;t.focus();t.select();byId("selection-help").textContent="Автоматическое копирование недоступно. Выдели текст ниже, скопируй вручную и отправь Лизе в Telegram.";}
   }
   function spinWheel(){
