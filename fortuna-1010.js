@@ -95,10 +95,10 @@
   },
   {
     "short": "Карты",
-    "title": "Послание от карт",
-    "type": "cards",
-    "description": "Одна символическая карта — один вопрос к себе. Посмотрим, что откликнется.",
-    "instruction": "Ниже откроется твоё послание от карт. Сохрани его, если захочешь перечитать. Это повод для размышления, не готовый сценарий будущего."
+    "title": "Личное послание от карт",
+    "type": "claim",
+    "description": "Твой приз — личное послание от Лизы. Я сама вытяну для тебя одну или несколько карт и разберу их в голосовом сообщении.",
+    "instruction": "Готовой трактовки на сайте не будет — я сделаю её лично для тебя. Нажми «Получить личное послание», пришли код в Telegram в течение 48 часов и расскажи, какая тема сейчас волнует. Карту или карты выберу сама, ответ запишу голосовым."
   },
   {
     "short": "Свеча",
@@ -106,40 +106,6 @@
     "type": "claim",
     "description": "Да, настоящая свеча от Лизы — в подарок. Её стоимость в прайсе — 666 ₽.",
     "instruction": "Напиши в Telegram в течение 48 часов и пришли код. Договоримся о получении свечи; если потребуется пересылка, доставку оплачиваешь отдельно."
-  }
-];
-  const cardMessages = [
-  {
-    "name": "Звезда",
-    "text": "Ты можешь двигаться к большому, не обесценивая маленькое. Сегодня посмотри на то, что возвращает тебе надежду и силы. Выбери один шаг к этому."
-  },
-  {
-    "name": "Сила",
-    "text": "Мягкость — не слабость. Твоя сила сегодня в том, чтобы удержать свои границы спокойно, без борьбы за чужое одобрение."
-  },
-  {
-    "name": "Верховная Жрица",
-    "text": "Не всякая пауза означает тупик. Прислушайся к себе: что ты чувствуешь, когда перестаёшь спрашивать всех остальных?"
-  },
-  {
-    "name": "Маг",
-    "text": "У тебя уже есть хотя бы один инструмент для начала. Не жди идеальных обстоятельств — собери свои ресурсы и сделай первый шаг."
-  },
-  {
-    "name": "Колесо Фортуны",
-    "text": "Перемены идут своим чередом, но твой выбор всё ещё имеет значение. Не пытайся контролировать случай; выбирай, как на него ответить."
-  },
-  {
-    "name": "Умеренность",
-    "text": "Не обязательно всё решать одним рывком. Сложи два небольших действия в устойчивую привычку и дай себе время."
-  },
-  {
-    "name": "Императрица",
-    "text": "Позаботься о том, что хочешь вырастить: идее, теле, отношениях или деле. Внимание и регулярность — тоже действие."
-  },
-  {
-    "name": "Отшельник",
-    "text": "Чужой шум может заглушать собственный голос. Найди немного тишины и честно ответь себе, какой выбор давно назрел."
   }
 ];
   const runeMessages = [
@@ -244,11 +210,6 @@
     const text=gift.type==="discount"?"Теперь самое приятное: выбирай услугу ниже. Я уже пересчитала цены. Скопируй заявку с кодом и отправь её мне в Telegram.":gift.instruction;
     byId("gift-instructions").textContent=text||"";
     if(gift.type==="rune" && Number.isInteger(saved.rune) && saved.rune>=0 && saved.rune<runeMessages.length){const rune=runeMessages[saved.rune];byId("gift-title").textContent="Твоя руна — "+rune.name;byId("gift-description").textContent=rune.text+" Символическое послание для размышлений.";}
-    if(gift.type==="cards"){
-      if(!Number.isInteger(saved.card)||saved.card<0||saved.card>=cardMessages.length){saved.card=unbiasedCard();persist();}
-      const card=cardMessages[saved.card];
-      byId("gift-description").textContent="Твоя символическая карта — «"+card.name+"». "+card.text;
-    }
     byId("gift-kicker").textContent=gift.type==="discount"?"ТВОЙ СЧАСТЛИВЫЙ ПРОЦЕНТ":claiming?"ПОБЕДА! ЭТО ТВОЁ":gift.type==="question"?"ЕЩЁ НЕМНОГО ЯСНОСТИ":"ПОСЛАНИЕ ОТ ФОРТУНЫ";
     byId("deadline").textContent=limited?(active?"Успей забрать до "+deadlineMoscow():"Срок действия подарка закончился ("+deadlineMoscow()+")."):"Подарок уже твой. Сохрани его, чтобы не потерять.";
     byId("result-note").textContent=claiming?"Подарок нужно подтвердить со мной лично — одного вращения недостаточно для брони.":limited?"Код и срок действия сохраняются на этой странице.":"Можешь сохранить текст или сделать скриншот.";
@@ -259,7 +220,7 @@
     link.textContent=gift.type==="discount"||gift.type==="question"?"Выбрать услугу ↓":"Посмотреть услуги ↓";
     const tgGift=byId("tg-gift");
     tgGift.href=telegramHref(buildGiftMessage());
-    tgGift.textContent=claiming?"Забрать подарок в Telegram ↗":"Написать Лизе о выигрыше ↗";
+    tgGift.textContent=saved.i===13?"Получить личное послание ↗":claiming?"Забрать подарок в Telegram ↗":"Написать Лизе о выигрыше ↗";
     spin.disabled=true;spin.textContent="ТВОЙ ПОДАРОК УЖЕ ЗДЕСЬ ✦";
     status.textContent=limited&&!active?"Срок обращения за подарком истёк.":"Не потеряй: твой подарок ждёт ниже.";
     if(scroll)result.scrollIntoView({behavior:reduced()?"auto":"smooth",block:"start"});
@@ -357,12 +318,13 @@
     if(limited){
       lines.push(active?"Срок обращения: до "+deadlineMoscow():"Срок действия подарка уже истёк ("+deadlineMoscow()+").");
     }
-    if(gift.type==="rune"||gift.type==="cards"){
+    if(gift.type==="rune"){
       lines.push("Моё послание: "+byId("gift-description").textContent);
     }
     lines.push("");
     if(gift.type==="discount")lines.push(active?"Хочу воспользоваться скидкой. Подскажи, пожалуйста, как это сделать?":"Хочу уточнить, какие предложения сейчас доступны.");
     else if(gift.type==="question")lines.push(active?"Хочу использовать дополнительный вопрос к консультации. Как записаться?":"Хочу узнать о консультациях.");
+    else if(saved.i===13)lines.push(active?"Хочу получить от тебя личное голосовое послание: чтобы ты сама вытянула для меня карту или несколько карт и рассказала, что они означают. Можно я напишу свой вопрос или тему?":"Хочу уточнить, можно ли ещё получить личное голосовое послание от карт.");
     else if(gift.type==="claim")lines.push(active?"Хочу забрать свой подарок. Подскажи, пожалуйста, что для этого нужно?":"Хочу уточнить возможность получения подарка.");
     else lines.push("Спасибо за подарок! Хочу узнать о твоих услугах.");
     return lines.join("\n");
@@ -381,7 +343,8 @@
     if(gift){
       lines.push("","Мой выигрыш: «"+giftTitle()+"» 🎁","Подарочный код: "+saved.code);
       if(isLimited(gift))lines.push(isActive()?"Срок действия: до "+deadlineMoscow():"Срок действия выигрыша закончился ("+deadlineMoscow()+").");
-      if(gift.type==="cards"||gift.type==="rune")lines.push("Моё послание: "+byId("gift-description").textContent);
+      if(gift.type==="rune")lines.push("Моё послание: "+byId("gift-description").textContent);
+      if(saved.i===13)lines.push("Хочу, чтобы ты лично вытянула мне карту или несколько карт и прислала голосовое послание. Напишу свою тему или вопрос.");
     }
     if(discount)lines.push("Моя скидка: "+discount+"%","Стоимость со скидкой: "+formatted(item,priceWithDiscount(item[3])));
     if(eligible)lines.push("Бонус: +1 уточняющий вопрос по той же ситуации.");
@@ -417,7 +380,7 @@
   function spinWheel(){
     if(spinning || saved)return;
     spinning=true;spin.disabled=true;spin.innerHTML="КОЛЕСО ВРАЩАЕТСЯ <span>✧</span>";status.textContent="Фортуна выбирает подарок. Подожди пару секунд…";
-    const i=unbiasedIndex();saved={i,code:giftCode(),t:Date.now()};if(gifts[i].type==="cards")saved.card=unbiasedCard();if(gifts[i].type==="rune")saved.rune=unbiasedCard();persist();
+    const i=unbiasedIndex();saved={i,code:giftCode(),t:Date.now()};if(gifts[i].type==="rune")saved.rune=unbiasedCard();persist();
     const deg=360*8+(360-i*(360/gifts.length));
     let done=false;
     function finished(){if(done)return;done=true;spinning=false;renderPrize(true);renderBanner();renderServices();renderSelection();celebrate();}
