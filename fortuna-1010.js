@@ -192,7 +192,7 @@
     do {crypto.getRandomValues(buffer);} while(buffer[0]>=limit);
     return buffer[0]%gifts.length;
   }
-  function unbiasedCard() { if(!window.crypto || !crypto.getRandomValues)return Math.floor(Math.random()*cardMessages.length);const n=new Uint32Array(1),m=4294967296,limit=m-m%cardMessages.length;do{crypto.getRandomValues(n)}while(n[0]>=limit);return n[0]%cardMessages.length; }
+  function unbiasedRune() { if(!window.crypto || !crypto.getRandomValues)return Math.floor(Math.random()*runeMessages.length);const n=new Uint32Array(1),m=4294967296,limit=m-m%runeMessages.length;do{crypto.getRandomValues(n)}while(n[0]>=limit);return n[0]%runeMessages.length; }
   function giftCode() {
     const bytes=new Uint8Array(5);
     if (window.crypto && crypto.getRandomValues) crypto.getRandomValues(bytes);
@@ -380,7 +380,7 @@
   function spinWheel(){
     if(spinning || saved)return;
     spinning=true;spin.disabled=true;spin.innerHTML="КОЛЕСО ВРАЩАЕТСЯ <span>✧</span>";status.textContent="Фортуна выбирает подарок. Подожди пару секунд…";
-    const i=unbiasedIndex();saved={i,code:giftCode(),t:Date.now()};if(gifts[i].type==="rune")saved.rune=unbiasedCard();persist();
+    const i=unbiasedIndex();saved={i,code:giftCode(),t:Date.now()};if(gifts[i].type==="rune")saved.rune=unbiasedRune();persist();
     const deg=360*8+(360-i*(360/gifts.length));
     let done=false;
     function finished(){if(done)return;done=true;spinning=false;renderPrize(true);renderBanner();renderServices();renderSelection();celebrate();}
